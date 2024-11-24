@@ -51,15 +51,15 @@ function onClose(e) {
 }
 
 .close {
-    display: none;
     line-height: 18px;
     text-align: center;
     margin-left: 8px;
     height: 14px;
-    width: 14px;
+    width: 0;
     color: #409EFF;
     font-size: 12px;
     border-radius: 50%;
+    transition-duration: 0.3s;
 }
 
 .close:hover {
@@ -67,7 +67,7 @@ function onClose(e) {
 }
 
 .TabButton:hover .close {
-    display: block;
-    transition-duration: 0.5s;
+    width: 14px;
+    transition-duration: 0.3s;
 }
 </style>
