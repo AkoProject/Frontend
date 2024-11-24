@@ -21,6 +21,8 @@ export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
 export const AkoApiSymbol = Symbol("AkoApi") as InjectionKey<AkoApi>
 
+export { AkoMainView }
+
 export class Ako {
     get api(): AkoApi {
         return this._api;
@@ -60,15 +62,13 @@ export class Ako {
         app.provide(AkoApiSymbol, this._api)
 
         app.use(ElementPlus, {locale: zhCn})
-
-        app.component("AkoMain", AkoMainView)
     }
 
     findComponent(name: string) {
         return defaultMap[name] ?? this._app.component(name)
     }
 
-    createEntityView(model: DbModel, selectFun?: (data: {}) => void = undefined): VNode {
+    createEntityView(model: DbModel, selectFun: (data: {}) => void = undefined): VNode {
         return createVNode(
             this.findComponent(model.pageNode),
             {
