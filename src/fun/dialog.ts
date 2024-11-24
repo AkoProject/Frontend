@@ -2,7 +2,6 @@ import {CSSProperties, Ref, ref, VNode} from "vue";
 
 interface DialogOption {
     content: VNode | (() => VNode)
-    close: () => void,
     style?: string | CSSProperties
 }
 
@@ -19,14 +18,14 @@ export const dialogList = ref<RealDialog[]>([])
 export function dialog(
     options: DialogOption
 ): Dialog {
-    console.log("dialog")
-    const d = {
+    const d: RealDialog = {
         ...options,
         showRef: ref(true),
         close() {
             this.showRef.value = false
         }
     }
+    // @ts-ignore
     dialogList.value.push(d)
     return d
 }

@@ -17,9 +17,9 @@
 import DbField from "../../src/type/DbField.ts";
 import DbModel from "../../src/type/DbModel.ts";
 import {inject, ref, VNode, watch} from "vue";
-import {ElMessageBox} from "element-plus";
 import {AkoSymbol} from "../../src/ako.ts";
 import {enumMapOf} from "../../src/fun/enum.ts";
+import {dialog} from "../../src/fun/dialog.ts";
 
 const ako = inject(AkoSymbol)
 
@@ -38,14 +38,6 @@ if (subtype == 1)
         if (disabled.value) modelValue.value = inputValue.value = ''
     })
 
-
-const mappingView = (mappingModel, mappingFieldId, mappingDisplayId) => ako.createEntityView(mappingModel, data => {
-    inputValue.value = data[mappingFieldId] + ':' + data[mappingDisplayId]
-    modelValue.value = data[mappingFieldId]
-    ElMessageBox.close()
-})
-
-
 const inputValue = ref('')
 
 function openDialog() {
@@ -57,15 +49,13 @@ function openDialog() {
 function ofDialog(content: string) {
     const [mappingModelId, mappingFieldId, mappingDisplayId] = content.split('|')
     const mappingModel = ako.models.find(model => model.id === mappingModelId)
-    createDialog(mappingView(mappingModel, mappingFieldId, mappingDisplayId))
-}
-
-function createDialog(node: VNode) {
-    ElMessageBox({
-        customStyle: "min-width: 1400px; height: calc(100% - 200px);",
-        message: node,
-        showCancelButton: false,
-        showConfirmButton: false,
+    const d = dialog({
+        style: {'min-width': '1400px', height: 'calc(100% - 200px)'},
+        content: () => ako.createEntityView(mappingModel, data => {
+            inputValue.value = data[mappingFieldId] + ':' + data[mappingDisplayId]
+            modelValue.value = data[mappingFieldId]
+            d.close()
+        })
     })
 }
 
