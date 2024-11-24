@@ -29,6 +29,7 @@
             </div>
         </el-main>
     </el-container>
+    <dialog-manager/>
 </template>
 
 <script setup lang="tsx">
@@ -40,6 +41,7 @@ import {ElIcon, ElMenu, ElSubMenu, ElMenuItem} from "element-plus";
 import MenuAble from "../../src/type/MenuAble.ts";
 import MenuGroup from "../../src/type/MenuGroup.ts";
 import {AkoApiSymbol, AkoOptionsSymbol, AkoSymbol} from "../../src/ako.ts";
+import DialogManager from "./DialogManager.vue";
 
 const api = inject(AkoApiSymbol)
 
@@ -120,6 +122,7 @@ function closeTab(item: MenuItem) {
 
 .menu {
     background: url("/img/menu-bg.png") rgba(0, 94, 235, .1) no-repeat top;
+    overflow-y: auto;
 }
 
 .logo {
