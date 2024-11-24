@@ -35,7 +35,7 @@ const props = defineProps<{
     tableNode: any,
     searchNode: any,
     editNode: any,
-    selectFun?: (data: {}) => Any,
+    selectFun?: (data: {}) => any,
 }>()
 
 const viewMode = !props.selectFun ? 'manager' : 'search'
@@ -73,7 +73,7 @@ function openEditPanel(data: {}) {
     console.log(data)
     ElMessageBox({
         title: '编辑',
-        customStyle: "min-width: 640px;",
+        customStyle: {'min-width': '640px'},
         message: createVNode(ako.findComponent(props.editNode), {
             data: data,
             entities: entityList.value,

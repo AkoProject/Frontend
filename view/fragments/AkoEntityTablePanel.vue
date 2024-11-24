@@ -37,8 +37,8 @@ const prop = defineProps<{
     entities: [],
     mappings: any,
     searchFun: () => Promise<any>,
-    selectFun?: (data: {}) => Any,
-    editFun: (data: {}) => Any,
+    selectFun?: (data: {}) => any,
+    editFun: (data: {}) => any,
     viewMode: "manager" | "search"
 }>()
 

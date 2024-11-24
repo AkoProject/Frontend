@@ -54,8 +54,9 @@ function makeRender(): VNode {
             return <ElTooltip placement="top" effect="light">{{
                 default: () => <ElLink type="primary" underline={false} onClick={() =>
                     ElMessageBox({
-                        customStyle: "max-width: 824px",
+                        customStyle: {'max-width': '824px'},
                         title: '查看大图',
+                        // @ts-ignore
                         message: h(ElImage, {
                             src: prefix + data,
                             style: "max-width: 800px; max-height: 800px",
@@ -66,7 +67,7 @@ function makeRender(): VNode {
                 content: () => <img src={prefix + data} style="max-width: 200px; max-height: 200px" alt=""/>
             }}</ElTooltip>
 
-        if (type === 2)
+        if (subtype === 2)
             return <ElLink type="primary" underline={false}>查看</ElLink>
 
     }
