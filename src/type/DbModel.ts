@@ -1,10 +1,10 @@
 import DbField from "./DbField.ts";
-import {createVNode, VNode} from "vue";
-import {findComponent} from "../ako.ts";
 
 export default interface DbModel {
     id: string
     name: string
+
+    previous: string
 
     pageNode: string
     searchNode: string

@@ -10,12 +10,14 @@ export interface AkoOptions {
     api?: (ako: Ako) => AkoApi
     registerElementIcon?: boolean
     baseUrl?: string
+    channel?: string
     dashboard?: MenuItem
     menuItems?: (MenuItem | MenuGroup)[]
 }
 
 export const defaultOptions: AkoOptions = {
     baseUrl: "/api/ako/",
+    channel: "manager",
     registerElementIcon: true,
     api: (ako) => new DefaultAkoApi(ako),
     dashboard: {

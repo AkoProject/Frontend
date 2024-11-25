@@ -58,12 +58,13 @@ function flattenMenuTree(items: MenuAble[]) {
     })
 }
 
-const elMenu = () => <ElMenu style="background-color:rgba(0,0,0,0);border-right: none;" onSelect={clickMenu}
-                             default-active={options.dashboard.id}>
-    {
-        menus.value.map(item => renderMenuAble(item))
-    }
-</ElMenu>
+const elMenu = () =>
+    <ElMenu background-color="rgba(0,0,0,0)" style="border-right: none;" onSelect={clickMenu}
+            default-active={options.dashboard.id}>
+        {
+            menuTree.value.map(item => renderMenuAble(item))
+        }
+    </ElMenu>
 
 
 function renderMenuAble(item: MenuAble) {
@@ -79,7 +80,7 @@ function renderMenuAble(item: MenuAble) {
 
     const group = item as MenuGroup
     return (
-        <ElSubMenu title={group.name} index={item.id}>
+        <ElSubMenu index={item.id}>
             {{
                 default: () => group.children.map(c => renderMenuAble(c)),
                 title: () => [<ElIcon>{item.icon}</ElIcon>, <span>{item.name}</span>]
