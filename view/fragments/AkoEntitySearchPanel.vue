@@ -33,7 +33,7 @@ const model = props.model
 const fields = model.fields.filter(it => !it.searchIgnore)
 
 
-function renderColumn(field: DbField): VNode[] {
+function renderColumn(field: DbField): () => VNode[] {
     return () => field.searchEntry.map(it => {
         const [component, opt, placeholder, width] = it.split("|")
         const paramName = opt == "eq" ? field.id : field.id + "_" + opt
