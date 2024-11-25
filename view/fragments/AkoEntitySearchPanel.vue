@@ -1,14 +1,13 @@
 <template>
-    <el-button type="primary" @click="props.searchFun()">查询</el-button>
-    <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
-    <h10/>
-    <div class="h100" style="overflow-y: auto">
+    <div style="overflow-y: auto;max-height: 100px">
         <el-form inline label-width="auto" label-position="left">
             <el-form-item v-for="field in fields" :label="field.name">
                 <component :is="renderColumn(field)"/>
             </el-form-item>
         </el-form>
     </div>
+    <el-button type="primary" @click="props.searchFun()">查询</el-button>
+    <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
 </template>
 
 <script setup lang="ts">
