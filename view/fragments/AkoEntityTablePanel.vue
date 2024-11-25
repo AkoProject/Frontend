@@ -6,6 +6,7 @@
         style="width: 100%"
         @current-change="(e) => singleSelect = e"
         @selectionChange="(e) => multiSelect = e"
+        @sort-change="handleSortChange"
     >
         <el-table-column type="selection" width="55"/>
         <el-table-column
@@ -13,6 +14,7 @@
             :prop="it.id"
             :label="it.name"
             show-overflow-tooltip
+            sortable="custom"
             :min-width="it.columnWidth"
         >
             <template #default="scope">
@@ -48,6 +50,16 @@ const api = inject(AkoApiSymbol)
 
 const singleSelect = ref()
 const multiSelect = ref([])
+
+const orderData = defineModel<any>({required: true})
+
+function handleSortChange(data: {column: any, prop: any, order: 'ascending' | 'descending' | null}) {
+    if (data.order == 'ascending') orderData.value[data.prop] = 'asc'
+    else if (data.order == 'descending') orderData.value[data.prop] = 'desc'
+    else delete orderData.value[data.prop]
+
+    console.log(orderData.value)
+}
 
 const prop = defineProps<{
     model: DbModel,

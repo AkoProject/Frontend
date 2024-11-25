@@ -54,6 +54,7 @@ const pid = ref(1)
 const size = ref(20)
 
 const searchData = ref({})
+const orderData = ref({})
 const entityNum = ref(0)
 const entityList = ref([])
 const mappings = ref()
@@ -64,6 +65,7 @@ const searchNode = createVNode(ako.findComponent(props.searchNode), {
     ...subNodeProps
 })
 const tableNode = () => createVNode(ako.findComponent(props.tableNode), {
+    modelValue: orderData.value,
     entities: entityList.value,
     mappings: mappings.value,
     ...subNodeProps
@@ -91,7 +93,7 @@ async function search() {
         .filter(key => searchData.value[key] !== '' && searchData.value[key] != null && searchData.value[key] != undefined)
         .forEach(key => data[key] = searchData.value[key])
 
-    const resp = await api.model.page(props.model.id, data, pid.value, size.value)
+    const resp = await api.model.page(props.model.id, data, orderData.value, pid.value, size.value)
     entityNum.value = resp.total
     entityList.value = resp.entities
     mappings.value = resp.mappings
@@ -111,7 +113,7 @@ async function deleteOne(id: number) {
 }
 
 watch([pid, size], async () => await search())
-
+watch(orderData, async () => await search(), {deep: true})
 onMounted(async () => await search())
 
 </script>
