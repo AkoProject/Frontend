@@ -3,6 +3,8 @@ export default interface DbField {
     name: string
     description: string
 
+    columnWidth: string
+
     searchIgnore : boolean
     tableIgnore : boolean
     editIgnore : boolean

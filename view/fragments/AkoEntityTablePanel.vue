@@ -1,11 +1,17 @@
 <template>
-    <el-table :data="prop.entities" stripe>
-        <el-table-column v-for="it in prop.model.fields" :prop="it.id" :label="it.name" show-overflow-tooltip>
+    <el-table :data="prop.entities" stripe style="width: 100%">
+        <el-table-column
+            v-for="it in prop.model.fields"
+            :prop="it.id"
+            :label="it.name"
+            show-overflow-tooltip
+            :min-width="it.columnWidth"
+        >
             <template #default="scope">
                 <component :is="renderColumn(it,scope.row)"/>
             </template>
         </el-table-column>
-        <el-table-column v-if="prop.viewMode === 'manager'" fixed="right" label="操作" min-width="50">
+        <el-table-column v-if="prop.viewMode === 'manager'" fixed="right" label="操作" min-width="100">
             <template #default="scope">
                 <el-button link type="primary" size="small" @click="editFun({...scope.row})">编辑</el-button>
                 <el-popconfirm title="你确定要删除吗?" @confirm="deleteEntry(scope.row.id)">
