@@ -1,5 +1,13 @@
 <template>
-    <el-table :data="prop.entities" stripe style="width: 100%">
+    <el-table
+        :data="prop.entities"
+        stripe
+        highlight-current-row
+        style="width: 100%"
+        @current-change="(e) => singleSelect = e"
+        @selectionChange="(e) => multiSelect = e"
+    >
+        <el-table-column type="selection" width="55"/>
         <el-table-column
             v-for="it in prop.model.fields"
             :prop="it.id"
@@ -32,11 +40,14 @@
 <script setup lang="tsx">
 import DbModel from "../../src/type/DbModel.ts";
 import DbField from "../../src/type/DbField.ts";
-import {createVNode, inject} from "vue";
+import {createVNode, inject, ref} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
+
+const singleSelect = ref()
+const multiSelect = ref([])
 
 const prop = defineProps<{
     model: DbModel,
