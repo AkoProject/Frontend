@@ -68,7 +68,6 @@ const entityNum = ref(0)
 const entityList = ref([])
 const mappings = ref()
 
-
 const subNodeProps = {
     model: props.model,
     editFun: openEditPanel,

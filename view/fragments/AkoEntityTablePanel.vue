@@ -51,11 +51,6 @@ const api = inject(AkoApiSymbol)
 const singleSelect = defineModel<any>('single', {required: true})
 const multiSelect = defineModel<any[]>('multi', {required: true})
 
-
-watch(multiSelect, it => console.log("++++++", it))
-// const singleSelect = ref()
-// const multiSelect = ref([])
-
 const orderData = defineModel<any>({required: true})
 
 function handleSortChange(data: { column: any, prop: any, order: 'ascending' | 'descending' | null }) {

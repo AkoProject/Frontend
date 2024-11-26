@@ -23,9 +23,6 @@ const api = inject(AkoApiSymbol)
 const singleSelect = defineModel<any>('single', {required: true})
 const multiSelect = defineModel<any[]>('multi', {required: true})
 
-
-watch(multiSelect, it => console.log("------", it))
-
 const ako = inject(AkoSymbol)
 
 const props = defineProps<{
