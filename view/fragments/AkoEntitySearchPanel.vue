@@ -8,14 +8,23 @@
     </div>
     <el-button type="primary" @click="props.searchFun()">查询</el-button>
     <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
+    <el-button type="danger" @click="multiDelete">批量删除</el-button>
 </template>
 
 <script setup lang="ts">
 import DbModel from "../../src/type/DbModel.ts";
 import DbField from "../../src/type/DbField.ts";
-import {createVNode, inject, VNode} from "vue";
+import {createVNode, inject, VNode, watch} from "vue";
 import H10 from "../components/h10.vue";
-import {AkoSymbol} from "../../src/ako.ts";
+import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
+
+const api = inject(AkoApiSymbol)
+
+const singleSelect = defineModel<any>('single', {required: true})
+const multiSelect = defineModel<any[]>('multi', {required: true})
+
+
+watch(multiSelect, it => console.log("------", it))
 
 const ako = inject(AkoSymbol)
 
@@ -49,6 +58,11 @@ function renderColumn(field: DbField): () => VNode[] {
             }
         )
     })
+}
+
+async function multiDelete() {
+    await api.model.delete(props.model.id, multiSelect.value.map(it => it.id))
+    await props.searchFun()
 }
 </script>
 

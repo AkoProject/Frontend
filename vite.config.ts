@@ -1,9 +1,16 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
+import dts from "vite-plugin-dts";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        dts({
+            outDir: "dist/types",
+            insertTypesEntry: true,
+        }),
+    ],
     esbuild: {
         jsxFactory: 'h',
         jsxFragment: 'Fragment',
@@ -13,7 +20,7 @@ export default defineConfig({
         lib: {
             entry: 'src/ako.ts',
             name: 'ako',
-            fileName: (format) => `ako.${format}.js`
+            fileName: 'ako',
         },
         rollupOptions: {
             external: ['vue', "element-plus", "@element-plus/icons-vue", "axios", "dayjs", 'element-plus/dist/index.css'],
@@ -25,6 +32,8 @@ export default defineConfig({
         }
     },
     server: {
+        host: '0.0.0.0',
+        port: 7777,
         proxy: {
             "/api": "http://localhost:17777/",
         }

@@ -10,12 +10,12 @@
     "files": [
         "dist"
     ],
-    "main": "dist/ako.umd.js",
-    "module": "dist/ako.es.js",
+    "main": "dist/ako.umd.cjs",
+    "module": "dist/ako.js",
     "exports": {
         ".": {
-            "import": "./dist/ako.es.js",
-            "require": "./dist/ako.umd.js"
+            "import": "./dist/ako.js",
+            "require": "./dist/ako.umd.cjs"
         }
     },
     "dependencies": {
@@ -30,6 +30,7 @@
         "@vitejs/plugin-vue": "^5.0.4",
         "typescript": "^5.2.2",
         "vite": "^5.1.4",
+        "vite-plugin-dts": "^4.2.3",
         "vue-tsc": "^1.8.27"
     }
 }

@@ -42,18 +42,23 @@
 <script setup lang="tsx">
 import DbModel from "../../src/type/DbModel.ts";
 import DbField from "../../src/type/DbField.ts";
-import {createVNode, inject, ref} from "vue";
+import {createVNode, inject, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
 
-const singleSelect = ref()
-const multiSelect = ref([])
+const singleSelect = defineModel<any>('single', {required: true})
+const multiSelect = defineModel<any[]>('multi', {required: true})
+
+
+watch(multiSelect, it => console.log("++++++", it))
+// const singleSelect = ref()
+// const multiSelect = ref([])
 
 const orderData = defineModel<any>({required: true})
 
-function handleSortChange(data: {column: any, prop: any, order: 'ascending' | 'descending' | null}) {
+function handleSortChange(data: { column: any, prop: any, order: 'ascending' | 'descending' | null }) {
     if (data.order == 'ascending') orderData.value[data.prop] = 'asc'
     else if (data.order == 'descending') orderData.value[data.prop] = 'desc'
     else delete orderData.value[data.prop]
@@ -85,7 +90,7 @@ function renderColumn(field: DbField, data: any) {
 }
 
 async function deleteEntry(id: number) {
-    await api.model.delete(prop.model.id, id)
+    await api.model.delete(prop.model.id, [id])
     await prop.searchFun()
 }
 

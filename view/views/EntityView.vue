@@ -1,11 +1,26 @@
 <template>
     <div class="hFull">
         <panel class="h150">
-            <component :is="searchNode"/>
+            <component
+                :is="ako.findComponent(props.searchNode)"
+                v-bind="subNodeProps"
+                v-model="searchData"
+                v-model:single="singleSelect"
+                v-model:multi="multiSelect"
+            />
         </panel>
         <h20/>
         <panel style="height: calc(100% - 170px)">
-            <component :is="tableNode" style="height: calc(100% - 50px);"/>
+            <component
+                :is="ako.findComponent(props.tableNode)"
+                v-bind="subNodeProps"
+                v-model="orderData"
+                :entities="entityList"
+                :mappings="mappings"
+                v-model:single="singleSelect"
+                v-model:multi="multiSelect"
+                style="height: calc(100% - 50px);"
+            />
             <el-pagination
                 class="pd-t5"
                 style="float: right"
@@ -40,6 +55,20 @@ const props = defineProps<{
 
 const viewMode = !props.selectFun ? 'manager' : 'search'
 
+
+const pid = ref(1)
+const size = ref(20)
+
+const searchData = ref({})
+const orderData = ref({})
+const singleSelect = ref()
+const multiSelect = ref([])
+
+const entityNum = ref(0)
+const entityList = ref([])
+const mappings = ref()
+
+
 const subNodeProps = {
     model: props.model,
     editFun: openEditPanel,
@@ -49,27 +78,6 @@ const subNodeProps = {
     deleteOne: deleteOne,
     viewMode: viewMode
 }
-
-const pid = ref(1)
-const size = ref(20)
-
-const searchData = ref({})
-const orderData = ref({})
-const entityNum = ref(0)
-const entityList = ref([])
-const mappings = ref()
-
-const searchNode = createVNode(ako.findComponent(props.searchNode), {
-    modelValue: searchData.value,
-    'onUpdate:modelValue': (value) => searchData.value = value,
-    ...subNodeProps
-})
-const tableNode = () => createVNode(ako.findComponent(props.tableNode), {
-    modelValue: orderData.value,
-    entities: entityList.value,
-    mappings: mappings.value,
-    ...subNodeProps
-})
 
 function openEditPanel(data: {}) {
     console.log(data)
@@ -108,7 +116,7 @@ async function save(data: {}) {
 }
 
 async function deleteOne(id: number) {
-    await api.model.delete(props.model.id, id)
+    await api.model.delete(props.model.id, [id])
     await search()
 }
 
