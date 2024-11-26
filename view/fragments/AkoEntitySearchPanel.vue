@@ -1,5 +1,5 @@
 <template>
-    <div style="overflow-y: auto;max-height: 100px">
+    <div class="form">
         <el-form inline label-width="auto" label-position="left">
             <el-form-item v-for="field in fields" :label="field.name">
                 <component :is="renderColumn(field)"/>
@@ -67,5 +67,14 @@ async function multiDelete() {
 </script>
 
 <style scoped>
+.form {
+    max-height: 95px;
+    overflow-y: auto;
+    transition-duration: 0.8s;
+}
 
+.form:hover {
+    max-height: 600px;
+    transition-duration: 1.5s;
+}
 </style>

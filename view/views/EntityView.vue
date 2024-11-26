@@ -1,6 +1,6 @@
 <template>
-    <div class="hFull">
-        <panel class="h150">
+    <div class="hFull" style="overflow:hidden;">
+        <panel class="searchPanel">
             <component
                 :is="ako.findComponent(props.searchNode)"
                 v-bind="subNodeProps"
@@ -127,5 +127,8 @@ onMounted(async () => await search())
 </script>
 
 <style scoped>
+.searchPanel {
+    min-height: 150px;
+}
 
 </style>
