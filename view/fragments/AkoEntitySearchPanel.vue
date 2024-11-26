@@ -6,9 +6,11 @@
             </el-form-item>
         </el-form>
     </div>
-    <el-button type="primary" @click="props.searchFun()">查询</el-button>
-    <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
-    <el-button type="danger" @click="multiDelete">批量删除</el-button>
+    <div class="btn">
+        <el-button type="primary" @click="props.searchFun()">查询</el-button>
+        <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
+        <el-button type="danger" @click="multiDelete">批量删除</el-button>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -65,7 +67,7 @@ async function multiDelete() {
 
 <style scoped>
 .form {
-    max-height: 98px;
+    max-height: 100px;
     overflow-y: auto;
     transition-duration: 0.8s;
 }
@@ -73,5 +75,8 @@ async function multiDelete() {
 .form:hover {
     max-height: 600px;
     transition-duration: 1.5s;
+}
+.btn{
+    margin-top: -2px;
 }
 </style>
