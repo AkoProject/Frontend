@@ -30,7 +30,7 @@ const ako = inject(AkoSymbol)
 
 const props = defineProps<{
     model: DbModel,
-    searchFun: () => void,
+    searchFun: () => Promise<void>,
     viewMode: 'manager' | 'search',
     editFun: (entity: {}) => void
 }>()
@@ -68,7 +68,7 @@ async function multiDelete() {
 
 <style scoped>
 .form {
-    max-height: 95px;
+    max-height: 98px;
     overflow-y: auto;
     transition-duration: 0.8s;
 }
