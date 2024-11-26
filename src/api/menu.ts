@@ -49,6 +49,7 @@ export class DefaultAkoMenu implements MenuApi {
                     id: it.identifier,
                     name: it.name,
                     icon: iconNode,
+                    index: it.index,
                     children: []
                 }
                 parentMenuMap[it.identifier] = item
@@ -64,6 +65,7 @@ export class DefaultAkoMenu implements MenuApi {
                     id: it.identifier,
                     name: it.name,
                     closeable: it.displayAble,
+                    index: it.index,
                     icon: iconNode,
                     page: pageNode
                 }
@@ -77,6 +79,7 @@ export class DefaultAkoMenu implements MenuApi {
                 id: it.id,
                 name: it.name,
                 closeable: true,
+                index: it.index,
                 icon: iconNode,
                 page: pageNode
             }

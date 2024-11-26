@@ -14,6 +14,8 @@ export default interface DbModel {
 
     mappings: string[]
     fields: DbField[]
+
+    index: number
 }
 
 let models: DbModel[] = []

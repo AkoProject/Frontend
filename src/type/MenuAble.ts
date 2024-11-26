@@ -6,4 +6,6 @@ export default interface MenuAble {
     previous?: string
 
     icon: VNode
+
+    index: number
 }

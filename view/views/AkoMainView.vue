@@ -62,7 +62,7 @@ const elMenu = () =>
     <ElMenu background-color="rgba(0,0,0,0)" style="border-right: none;" onSelect={clickMenu}
             default-active={options.dashboard.id}>
         {
-            menuTree.value.map(item => renderMenuAble(item))
+            menuTree.value.sort((a, b) => a.index - b.index).map(item => renderMenuAble(item))
         }
     </ElMenu>
 
@@ -82,7 +82,7 @@ function renderMenuAble(item: MenuAble) {
     return (
         <ElSubMenu index={item.id}>
             {{
-                default: () => group.children.map(c => renderMenuAble(c)),
+                default: () => group.children.sort((a, b) => a.index - b.index).map(c => renderMenuAble(c)),
                 title: () => [<ElIcon>{item.icon}</ElIcon>, <span>{item.name}</span>]
             }}
         </ElSubMenu>

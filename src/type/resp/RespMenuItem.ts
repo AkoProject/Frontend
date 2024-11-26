@@ -11,5 +11,7 @@ export default interface RespMenuItem {
     tableNode?: string
     editNode?: string
     iconNode?: string
+
+    index: number
 }
 
