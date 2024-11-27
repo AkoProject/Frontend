@@ -1,12 +1,9 @@
 <template>
     <div class="TabButton" :class="{Selected: isSelected}">
-        <el-space :size="0">
-            <div>{{ name }}</div>
-
-            <el-icon v-if="closeable" class="close" @click="e => onClose(e)">
-                <Close/>
-            </el-icon>
-        </el-space>
+        <span>{{ name }}</span>
+        <el-icon v-if="closeable" class="close" @click="e => onClose(e)">
+            <Close/>
+        </el-icon>
     </div>
 </template>
 
@@ -31,7 +28,11 @@ function onClose(e) {
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
-
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .TabButton {

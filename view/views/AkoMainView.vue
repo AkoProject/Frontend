@@ -9,8 +9,8 @@
         <el-main style="padding: 0">
 
             <div class="body">
-                <div class="tab">
-                    <el-space>
+                <el-scrollbar class="tab wFull">
+                    <div class="scrollbar-flex-content">
                         <ako-tab-button
                             v-for="item in openMenus"
                             :name="item.name"
@@ -19,9 +19,8 @@
                             @click="clickTab(item)"
                             @close="closeTab(item)"
                         />
-                    </el-space>
-
-                </div>
+                    </div>
+                </el-scrollbar>
                 <h20/>
                 <div class="page">
                     <component v-for="item in openMenus" :is="item.page" v-show="currentSelect === item"/>
@@ -141,7 +140,10 @@ function closeTab(item: MenuItem) {
 .tab {
     border-radius: 4px;
     background-color: #fff;
-    overflow-x: auto;
+    height: 40px;
+}
+.scrollbar-flex-content {
+    display: flex;
 }
 
 .page {
