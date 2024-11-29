@@ -9,7 +9,11 @@
     <div class="btn">
         <el-button type="primary" @click="props.searchFun()">查询</el-button>
         <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
-        <el-button type="danger" @click="multiDelete">批量删除</el-button>
+        <el-popconfirm title="你确定要删除吗?" @confirm="multiDelete">
+            <template #reference>
+                <el-button type="danger" >批量删除</el-button>
+            </template>
+        </el-popconfirm>
     </div>
 </template>
 
