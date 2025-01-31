@@ -16,12 +16,14 @@ import {AkoApi} from "./api/api.ts";
 import AkoEntityEditPanel from "../view/fragments/AkoEntityEditPanel.vue";
 import AkoEntityEditColumnPanel from "../view/fragments/AkoEntityEditColumnPanel.vue";
 import AkoMainView from "../view/views/AkoMainView.vue";
+import AkoBootView from "../view/views/AkoBootView.vue";
 
 export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
 export const AkoApiSymbol = Symbol("AkoApi") as InjectionKey<AkoApi>
 
 export { AkoMainView }
+export { AkoBootView }
 
 export class Ako {
     get api(): AkoApi {

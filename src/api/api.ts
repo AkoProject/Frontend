@@ -1,12 +1,14 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {DefaultAkoMenu, MenuApi} from "./menu.ts";
 import {Ako} from "../ako.ts";
 import {DefaultModelApi, ModelApi} from "./model.ts";
+import {AuthApi, DefaultAuthApi} from "./auth.ts";
 
 
 export interface AkoApi {
     menu: MenuApi,
     model: ModelApi
+    auth: AuthApi
 }
 
 export class DefaultAkoApi implements AkoApi {
@@ -14,16 +16,18 @@ export class DefaultAkoApi implements AkoApi {
     private readonly baseUrl: string
     readonly menu: MenuApi
     readonly model: ModelApi
+    readonly auth: AuthApi
 
     constructor(ako: Ako) {
         this.ako = ako
         this.baseUrl = ako.options.baseUrl
         this.menu = new DefaultAkoMenu(this.ako, this)
         this.model = new DefaultModelApi(this)
+        this.auth = new DefaultAuthApi(this)
     }
 
-    async post(url: string, data: {} = {}): Promise<T> {
-        return (await axios.post(this.ako.options.baseUrl + url, data))?.data
+    async post<T>(url: string, data: {} = {}): Promise<T> {
+        return (await axios.post(this.baseUrl + url, data))?.data
     }
 
     async get<T>(url: string, data: {} = {}): Promise<T> {
@@ -33,6 +37,13 @@ export class DefaultAkoApi implements AkoApi {
                 url += `&${key}=${data[key]}`
             })
         }
-        return (await axios.get(this.ako.options.baseUrl + url))?.data
+        return (await axios.get(this.baseUrl + url))?.data
+    }
+
+    resultOf<T>(resp: AxiosResponse): T {
+        if (resp.status >= 200 && resp.status < 300) {
+            return resp.data
+        }
+        throw new Error(`Request failed with status code ${resp.status}`)
     }
 }
