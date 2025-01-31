@@ -2,7 +2,7 @@ import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import 'element-plus/dist/index.css'
 import '../style/style.css'
-import {App, createVNode, InjectionKey, VNode} from "vue";
+import {App, createVNode, InjectionKey, VNode, ObjectPlugin} from "vue";
 import {AkoOptions, margeOptions} from "./type/AkoOptions.ts";
 import EntityView from "../view/views/EntityView.vue";
 import {Menu} from "@element-plus/icons-vue";
@@ -22,10 +22,10 @@ export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
 export const AkoApiSymbol = Symbol("AkoApi") as InjectionKey<AkoApi>
 
-export { AkoMainView }
-export { AkoBootView }
+export {AkoMainView}
+export {AkoBootView}
 
-export class Ako {
+export class Ako implements ObjectPlugin<AkoOptions>{
     get api(): AkoApi {
         return this._api;
     }

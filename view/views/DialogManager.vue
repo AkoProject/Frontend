@@ -2,7 +2,7 @@
     <el-dialog
         v-for="it in dialogList"
         v-model="it.showRef"
-        @closed="dialogList = dialogList.filter(e => e!=it)"
+        @closed="closed"
         append-to-body
         :show-close="false"
         :style="it.style"
@@ -14,6 +14,8 @@
 <script setup lang="ts">
 
 import {dialogList} from "../../src/fun/dialog.ts";
+
+const closed = (it: any) => dialogList.value = dialogList.value.filter(e => e != it)
 </script>
 
 <style scoped>

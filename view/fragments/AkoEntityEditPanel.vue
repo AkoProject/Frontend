@@ -31,7 +31,7 @@ const model = props.model
 const fields = model.fields.filter(it => !it.editIgnore)
 const data = ref(props.data)
 
-function renderColumn(field: DbField): VNode {
+function renderColumn(field: DbField) {
     return () => createVNode(
         ako.findComponent(field.editNode),
         {

@@ -8,7 +8,9 @@ export default defineConfig({
         vue(),
         dts({
             outDir: "dist/types",
-            insertTypesEntry: true,
+            include: ['src/**/*', 'view/**/*'],
+            staticImport: true,
+            rollupTypes: true
         }),
     ],
     esbuild: {
@@ -20,7 +22,8 @@ export default defineConfig({
         lib: {
             entry: 'src/ako.ts',
             name: 'ako',
-            fileName: 'ako',
+            formats: ['es', 'umd'],
+            fileName: (format) => `ako.${format}.js`,
         },
         rollupOptions: {
             external: ['vue', "element-plus", "@element-plus/icons-vue", "axios", "dayjs", 'element-plus/dist/index.css'],

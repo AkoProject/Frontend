@@ -25,7 +25,8 @@ export const defaultOptions: AkoOptions = {
         name: "仪表盘",
         closeable: false,
         icon: createVNode(Menu),
-        page: createVNode("div", {class: "hFull bg-white br4"})
+        page: createVNode("div", {class: "hFull bg-white br4"}),
+        index: 0
     },
     menuItems: []
 }

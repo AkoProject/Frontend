@@ -21,7 +21,7 @@
         "noUnusedLocals": false,
         "noUnusedParameters": false,
         "noFallthroughCasesInSwitch": false,
-        "allowSyntheticDefaultImports": true
+        "allowSyntheticDefaultImports": true,
     },
     "include": [
         "src/**/*.ts",

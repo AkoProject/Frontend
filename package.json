@@ -1,7 +1,7 @@
 {
     "name": "ako",
     "private": true,
-    "version": "0.0.0",
+    "version": "0.0.1",
     "type": "module",
     "scripts": {
         "dev": "vite",
@@ -10,13 +10,15 @@
     "files": [
         "dist"
     ],
-    "main": "dist/ako.umd.cjs",
-    "module": "dist/ako.js",
     "exports": {
         ".": {
-            "import": "./dist/ako.js",
-            "require": "./dist/ako.umd.cjs"
-        }
+            "import": {
+                "default": "./dist/ako.es.js",
+                "types": "./dist/types/ako.es.d.ts"
+            },
+            "require": "./dist/ako.umd.js"
+        },
+        "./*": "./*"
     },
     "dependencies": {
         "@element-plus/icons-vue": "^2.3.1",
