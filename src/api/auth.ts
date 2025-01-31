@@ -16,7 +16,8 @@ export class DefaultAuthApi implements AuthApi{
         return this.api.get("auth/isAuth")
     }
 
-    login(username: string, password: string): Promise<boolean> {
-        return this.api.post("auth/login", {username: username, password: password})
+    async login(username: string, password: string): Promise<boolean> {
+        await this.api.post("auth/login", {username: username, password: password})
+        return true
     }
 }

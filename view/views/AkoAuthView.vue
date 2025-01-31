@@ -1,39 +1,226 @@
 <template>
-    <div class="hFull">
-        <div class="h200"/>
-        <div style="width: 500px;margin: auto">
-            <el-form label-width="120px">
-                <el-form-item label="用户名">
-                    <el-input v-model="username"/>
+    <div class="login-container">
+        <div class="dynamic-bg">
+            <div class="flow-line line-1"></div>
+            <div class="flow-line line-2"></div>
+            <div class="flow-line line-3"></div>
+        </div>
+
+        <div class="login-box">
+            <div class="login-header">
+                <h1 class="title">Ako</h1>
+                <!--                <p class="subtitle">Ako 业务快速启动框架</p>-->
+            </div>
+
+            <el-form
+                :model="form"
+                :rules="rules"
+                ref="loginForm"
+                class="login-form"
+                @keyup.enter="handleLogin"
+            >
+                <el-form-item prop="username">
+                    <el-input
+                        v-model="form.username"
+                        placeholder="请输入账号"
+                        size="large"
+                    >
+                        <template #prefix>
+                            <el-icon class="input-icon">
+                                <User/>
+                            </el-icon>
+                        </template>
+                    </el-input>
                 </el-form-item>
-                <el-form-item label="密码">
-                    <el-input v-model="password"/>
+
+                <el-form-item prop="password">
+                    <el-input
+                        v-model="form.password"
+                        type="password"
+                        placeholder="请输入密码"
+                        size="large"
+                        show-password
+                    >
+                        <template #prefix>
+                            <el-icon class="input-icon">
+                                <Lock/>
+                            </el-icon>
+                        </template>
+                    </el-input>
                 </el-form-item>
-                <el-form-item>
-                    <el-button type="primary" @click="login">登录</el-button>
-                </el-form-item>
+
+                <el-button
+                    type="primary"
+                    size="large"
+                    class="login-btn"
+                    :loading="loading"
+                    @click="handleLogin"
+                >
+                    {{ loading ? '登录中...' : '立即登录' }}
+                </el-button>
             </el-form>
         </div>
     </div>
 </template>
 
-<script setup lang="ts">
-
-import {inject, ref} from "vue";
+<script setup>
+import {ref, reactive, inject} from 'vue'
+import {User, Lock} from '@element-plus/icons-vue'
 import {AkoApiSymbol} from "../../src/ako.ts";
 
-const username = ref()
-const password = ref()
+const form = reactive({
+    username: '',
+    password: ''
+})
+
+const rules = reactive({
+    username: [
+        {required: true, message: '请输入用户名', trigger: 'blur'}
+    ],
+    password: [
+        {required: true, message: '请输入密码', trigger: 'blur'}
+    ]
+})
+
+const loading = ref(false)
+const loginForm = ref(null)
 
 const api = inject(AkoApiSymbol)
 
-async function login() {
-    await api.auth.login(username.value, password.value)
-    location.reload()
+const handleLogin = () => {
+    loginForm.value.validate(valid => {
+        if (valid) {
+            loading.value = true
+            login().catch(() => loading.value = false)
+        }
+    })
 }
 
+
+async function login() {
+    if (await api.auth.login(form.username, form.password)) location.reload()
+}
 </script>
 
 <style scoped>
+.login-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, #0a1639, #1a237e);
 
+    .dynamic-bg {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+
+        .flow-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(64, 158, 255, 0.6));
+            animation: flow 8s linear infinite;
+            filter: blur(20px);
+
+            &.line-1 {
+                width: 80%;
+                height: 2px;
+                top: 20%;
+                animation-delay: 0s;
+            }
+
+            &.line-2 {
+                width: 60%;
+                height: 2px;
+                top: 50%;
+                animation-delay: 2s;
+            }
+
+            &.line-3 {
+                width: 40%;
+                height: 2px;
+                top: 80%;
+                animation-delay: 4s;
+            }
+        }
+    }
+
+    .login-box {
+        position: relative;
+        width: 420px;
+        padding: 40px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 16px;
+        box-shadow: 0 0 30px rgba(64, 158, 255, 0.1);
+        backdrop-filter: blur(10px);
+        z-index: 1;
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+
+            .title {
+                color: #fff;
+                font-size: 28px;
+                margin: 0 0 10px;
+                letter-spacing: 2px;
+
+                .highlight {
+                    color: #409eff;
+                    text-shadow: 0 0 10px rgba(64, 158, 255, 0.5);
+                }
+            }
+
+            .subtitle {
+                color: rgba(255, 255, 255, 0.8);
+                font-size: 14px;
+                margin: 0;
+            }
+        }
+
+        .login-form {
+            :deep(.el-input__wrapper) {
+                background: rgba(255, 255, 255, 0.1);
+                box-shadow: none;
+            }
+
+            :deep(.el-input__inner) {
+                color: #fff;
+            }
+
+            .input-icon {
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 18px;
+                margin-right: 8px;
+            }
+
+            .login-btn {
+                width: 100%;
+                margin-top: 20px;
+                background: linear-gradient(45deg, #409eff, #6c8cff);
+                border: none;
+                letter-spacing: 2px;
+                font-weight: bold;
+                transition: all 0.3s;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    box-shadow: 0 5px 15px rgba(64, 158, 255, 0.4);
+                }
+            }
+        }
+    }
+}
+
+@keyframes flow {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
 </style>

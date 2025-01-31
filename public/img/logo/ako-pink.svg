@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" width="200" height="50">
+    <text x="10" y="40" font-family="Comic Sans MS, sans-serif" font-size="40" fill="pink" transform="translate(0, 0)">
+        A
+    </text>
+    <text x="40" y="40" font-family="Comic Sans MS, sans-serif" font-size="40" fill="pink" transform="translate(0, 0)">
+        k
+    </text>
+    <text x="65" y="40" font-family="Comic Sans MS, sans-serif" font-size="40" fill="pink" transform="translate(0, 0)">
+        o
+    </text>
+</svg>
