@@ -1,14 +1,25 @@
 <template>
     <el-container class="hFull">
-        <el-aside width="180px" class="hFull menu">
+        <el-aside width="240px" class="hFull menu">
             <div class="logo">
-                <el-image src="/assets/logo.png" style="height: 40px"></el-image>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 40" width="200" height="45">
+                    <text x="70" y="40" font-family="Comic Sans MS, sans-serif" font-size="40" fill="whitesmoke" transform="translate(0, 0)">
+                        A
+                    </text>
+                    <text x="100" y="40" font-family="Comic Sans MS, sans-serif" font-size="40" fill="whitesmoke" transform="translate(0, 0)">
+                        k
+                    </text>
+                    <text x="130" y="40" font-family="Comic Sans MS, sans-serif" font-size="40" fill="whitesmoke" transform="translate(0, 0)">
+                        o
+                    </text>
+                </svg>
             </div>
-            <component :is="elMenu"/>
+            <div class="menu-wrapper">
+                <component :is="elMenu"/>
+            </div>
         </el-aside>
         <el-main style="padding: 0">
-
-            <div class="body">
+            <div class="header">
                 <el-scrollbar class="tab wFull">
                     <div class="scrollbar-flex-content">
                         <ako-tab-button
@@ -21,7 +32,9 @@
                         />
                     </div>
                 </el-scrollbar>
-                <h20/>
+            </div>
+            <div class="body">
+
                 <div class="page">
                     <component v-for="item in openMenus" :is="item.page" v-show="currentSelect === item"/>
                 </div>
@@ -73,7 +86,7 @@ function renderMenuAble(item: MenuAble) {
                 <ElIcon>
                     {item.icon}
                 </ElIcon>
-                <span>{item.name}</span>
+                <span class="menu-item-name">{item.name}</span>
             </ElMenuItem>
         )
 
@@ -82,7 +95,7 @@ function renderMenuAble(item: MenuAble) {
         <ElSubMenu index={item.id}>
             {{
                 default: () => group.children.sort((a, b) => a.index - b.index).map(c => renderMenuAble(c)),
-                title: () => [<ElIcon>{item.icon}</ElIcon>, <span>{item.name}</span>]
+                title: () => [<ElIcon>{item.icon}</ElIcon>, <span class="menu-item-name">{item.name}</span>]
             }}
         </ElSubMenu>
     )
@@ -121,19 +134,53 @@ function closeTab(item: MenuItem) {
 <style scoped>
 
 .menu {
-    background: url("/img/menu-bg.png") rgba(0, 94, 235, .1) no-repeat top;
+    background: #171717;
     overflow-y: auto;
 }
 
+.menu :deep(.el-sub-menu__title), .menu :deep(.el-menu-item){
+    color: hsla(0, 0%, 100%, .7);
+}
+.menu :deep(.menu-item-name){
+    margin-left: 5px;
+}
+
+.menu-wrapper{
+    padding: 0 12px;
+}
+.menu :deep(.el-sub-menu__title),.menu :deep(.el-menu-item){
+    border-radius: 4px;
+    padding-left: 12px;
+    padding-right: 12px;
+    height: 40px;
+}
+
+.menu :deep(.el-menu-item.is-active){
+    background-color: #2e95ff !important;
+    color: #fff !important;
+}
+
 .logo {
-    padding: 5px 15px 0;
-    margin: 5px 0;
+    height: 56px;
+    border-bottom: 1px solid rgba(174,187,204,.2);
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: center;
+    justify-content: center
+}
+.header{
+    height: 56px;
+    box-shadow: 0 2px 7px 0 rgba(5, 34, 97, .1);
+    position: relative;
+    z-index: 2;
 }
 
 .body {
-    height: calc(100% - 40px);
+    height: calc(100% - 96px);
     width: calc(100% - 40px);
-    background: #f4f4f4;
+    background: #f4f7f9;
     padding: 20px;
 }
 
@@ -141,12 +188,13 @@ function closeTab(item: MenuItem) {
     border-radius: 4px;
     background-color: #fff;
     height: 40px;
+    padding: 8px 24px;
 }
 .scrollbar-flex-content {
     display: flex;
 }
 
 .page {
-    height: calc(100% - 60px);
+    height: 100%;
 }
 </style>
