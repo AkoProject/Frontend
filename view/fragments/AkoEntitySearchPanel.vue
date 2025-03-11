@@ -14,6 +14,9 @@
                 <el-button type="danger" >批量删除</el-button>
             </template>
         </el-popconfirm>
+        <el-button v-for="button in model.singleButton" @click="modelButton(button)">
+            {{button.name}}
+        </el-button>
     </div>
 </template>
 
@@ -23,6 +26,7 @@ import DbField from "../../src/type/DbField.ts";
 import {createVNode, inject, VNode, watch} from "vue";
 import H10 from "../components/h10.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
+import ModelButton from "../../src/type/ModelButton.ts";
 
 const api = inject(AkoApiSymbol)
 
@@ -42,6 +46,10 @@ const searchData = defineModel<{}>()
 
 const model = props.model
 const fields = model.fields.filter(it => !it.searchIgnore)
+
+async function modelButton(button: ModelButton) {
+    window.open(button.url.replace('$id', singleSelect.value.id))
+}
 
 
 function renderColumn(field: DbField): () => VNode[] {

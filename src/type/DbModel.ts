@@ -1,4 +1,5 @@
 import DbField from "./DbField.ts";
+import ModelButton from "./ModelButton.ts";
 
 export default interface DbModel {
     id: string
@@ -16,6 +17,8 @@ export default interface DbModel {
     fields: DbField[]
 
     index: number
+
+    singleButton: ModelButton[]
 }
 
 let models: DbModel[] = []
