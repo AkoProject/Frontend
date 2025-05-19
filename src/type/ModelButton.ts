@@ -4,6 +4,7 @@ export default interface ModelButton {
     index: number
     url: string
     method: string
-    newWindow: Boolean
-    eval: string
+    eval?: string
+    reconfirm?: string
+    type: string
 }

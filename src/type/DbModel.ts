@@ -18,7 +18,7 @@ export default interface DbModel {
 
     index: number
 
-    singleButton: ModelButton[]
+    modelButtons: ModelButton[]
 }
 
 let models: DbModel[] = []

@@ -7,16 +7,14 @@
         </el-form>
     </div>
     <div class="btn">
-        <el-button type="primary" @click="props.searchFun()">查询</el-button>
-        <el-button v-if="props.viewMode != 'search'" @click="editFun({})">新增</el-button>
-        <el-popconfirm title="你确定要删除吗?" @confirm="multiDelete">
-            <template #reference>
-                <el-button type="danger" >批量删除</el-button>
-            </template>
-        </el-popconfirm>
-        <el-button v-for="button in model.singleButton" @click="modelButton(button)">
-            {{button.name}}
-        </el-button>
+        <template v-for="button in model.modelButtons">
+            <el-popconfirm v-if="button.reconfirm" :title="button.reconfirm" @confirm="callModelButton(button)">
+                <template #reference>
+                    <el-button :type="button.type">{{ button.name }}</el-button>
+                </template>
+            </el-popconfirm>
+            <el-button v-else :type="button.type" @click="callModelButton(button)">{{ button.name }}</el-button>
+        </template>
     </div>
 </template>
 
@@ -71,9 +69,13 @@ function renderColumn(field: DbField): () => VNode[] {
     })
 }
 
-async function multiDelete() {
-    await api.model.delete(props.model.id, multiSelect.value.map(it => it.id))
-    await props.searchFun()
+async function callModelButton(button: ModelButton) {
+    const fun =  eval("async(single,multi,props) => {" + button.eval + "}")
+    await fun(singleSelect.value, multiSelect.value, {
+        model: props.model,
+        search: props.searchFun,
+        edit: props.editFun
+    })
 }
 </script>
 
