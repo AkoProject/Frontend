@@ -7,7 +7,10 @@
         </el-form>
     </div>
     <div class="btn">
-        <template v-for="button in model.modelButtons">
+        <template v-if="viewMode == 'search'">
+            <el-button type="primary" @click="searchFun">查询</el-button>
+        </template>
+        <template v-else v-for="button in model.modelButtons">
             <el-popconfirm v-if="button.reconfirm" :title="button.reconfirm" @confirm="callModelButton(button)">
                 <template #reference>
                     <el-button :type="button.type">{{ button.name }}</el-button>
