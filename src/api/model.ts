@@ -15,6 +15,12 @@ export class DefaultModelApi implements ModelApi {
     }
 
     page(model: string, searchData: {}, sortData: {}, pid: number, pSize: number): Promise<any> {
+        Object.keys(searchData)
+            .filter(key => key.endsWith("_like"))
+            .forEach(key => {
+                if (searchData[key] === "") delete searchData[key]
+                else searchData[key] = `%${searchData[key]}%`
+            })
         return this.api.post("model/page", {model: model, page: pid, size: pSize, params: searchData, sort: sortData})
     }
 
