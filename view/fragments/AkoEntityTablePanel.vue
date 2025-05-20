@@ -10,7 +10,7 @@
     >
         <el-table-column type="selection" width="55"/>
         <el-table-column
-            v-for="it in prop.model.fields"
+            v-for="it in prop.model.fields.filter(it => !it.tableIgnore)"
             :prop="it.id"
             :label="it.name"
             show-overflow-tooltip
