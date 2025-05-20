@@ -20,7 +20,7 @@
         </el-aside>
         <el-main style="padding: 0">
             <div class="header">
-                <el-scrollbar class="tab wFull">
+                <el-scrollbar class="tab">
                     <div class="scrollbar-flex-content">
                         <ako-tab-button
                             v-for="item in openMenus"
@@ -189,6 +189,7 @@ function closeTab(item: MenuItem) {
     background-color: #fff;
     height: 40px;
     padding: 8px 24px;
+    width: calc(100% - 48px);
 }
 .scrollbar-flex-content {
     display: flex;
