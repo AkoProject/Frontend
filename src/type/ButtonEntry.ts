@@ -1,10 +1,10 @@
 
-export default interface ModelButton {
+export default interface ButtonEntry {
     name: string
     index: number
     url: string
     method: string
     eval?: string
     reconfirm?: string
-    type: string
+    type: "primary" | "success" | "warning" | "danger" | "info" | "text"
 }

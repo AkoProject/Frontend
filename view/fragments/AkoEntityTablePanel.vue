@@ -21,19 +21,27 @@
                 <component :is="renderColumn(it,scope.row)"/>
             </template>
         </el-table-column>
-        <el-table-column v-if="prop.viewMode === 'manager'" fixed="right" label="操作" min-width="100">
-            <template #default="scope">
-                <el-button link type="primary" size="small" @click="editFun({...scope.row})">编辑</el-button>
-                <el-popconfirm title="你确定要删除吗?" @confirm="deleteEntry(scope.row.id)">
-                    <template #reference>
-                        <el-button link type="danger" size="small">删除</el-button>
-                    </template>
-                </el-popconfirm>
-            </template>
-        </el-table-column>
         <el-table-column v-if="prop.viewMode === 'search'" fixed="right" label="操作" min-width="50">
             <template #default="scope">
                 <el-button link type="primary" size="small" @click="prop.selectFun(scope.row)">选择</el-button>
+            </template>
+        </el-table-column>
+        <el-table-column v-else-if="model.operateButtons.length" fixed="right" label="操作" min-width="100">
+            <template #default="scope">
+                <template v-for="button in model.operateButtons">
+                    <el-popconfirm
+                        v-if="button.reconfirm"
+                        :title="button.reconfirm"
+                        @confirm="callButton(button, scope.row)"
+                    >
+                        <template #reference>
+                            <el-button link :type="button.type" size="small">{{ button.name }}</el-button>
+                        </template>
+                    </el-popconfirm>
+                    <el-button v-else link :type="button.type" size="small" @click="callButton(button, scope.row)">
+                        {{ button.name }}
+                    </el-button>
+                </template>
             </template>
         </el-table-column>
     </el-table>
@@ -44,6 +52,7 @@ import DbModel from "../../src/type/DbModel.ts";
 import DbField from "../../src/type/DbField.ts";
 import {createVNode, inject, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
+import ButtonEntry from "../../src/type/ButtonEntry.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -87,6 +96,15 @@ function renderColumn(field: DbField, data: any) {
 async function deleteEntry(id: number) {
     await api.model.delete(prop.model.id, [id])
     await prop.searchFun()
+}
+
+async function callButton(button: ButtonEntry, entity: {}) {
+    const fun = eval("async(entity,props) => {" + button.eval + "}")
+    await fun(entity, {
+        model: prop.model,
+        search: prop.searchFun,
+        edit: prop.editFun
+    })
 }
 
 </script>

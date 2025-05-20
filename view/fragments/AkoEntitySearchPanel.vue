@@ -11,12 +11,12 @@
             <el-button type="primary" @click="searchFun">查询</el-button>
         </template>
         <template v-else v-for="button in model.modelButtons">
-            <el-popconfirm v-if="button.reconfirm" :title="button.reconfirm" @confirm="callModelButton(button)">
+            <el-popconfirm v-if="button.reconfirm" :title="button.reconfirm" @confirm="callButton(button)">
                 <template #reference>
                     <el-button :type="button.type">{{ button.name }}</el-button>
                 </template>
             </el-popconfirm>
-            <el-button v-else :type="button.type" @click="callModelButton(button)">{{ button.name }}</el-button>
+            <el-button v-else :type="button.type" @click="callButton(button)">{{ button.name }}</el-button>
         </template>
     </div>
 </template>
@@ -27,7 +27,7 @@ import DbField from "../../src/type/DbField.ts";
 import {createVNode, inject, VNode, watch} from "vue";
 import H10 from "../components/h10.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
-import ModelButton from "../../src/type/ModelButton.ts";
+import ButtonEntry from "../../src/type/ButtonEntry.ts";
 
 const api = inject(AkoApiSymbol)
 
@@ -48,7 +48,7 @@ const searchData = defineModel<{}>()
 const model = props.model
 const fields = model.fields.filter(it => !it.searchIgnore)
 
-async function modelButton(button: ModelButton) {
+async function modelButton(button: ButtonEntry) {
     window.open(button.url.replace('$id', singleSelect.value.id))
 }
 
@@ -72,7 +72,7 @@ function renderColumn(field: DbField): () => VNode[] {
     })
 }
 
-async function callModelButton(button: ModelButton) {
+async function callButton(button: ButtonEntry) {
     const fun =  eval("async(single,multi,props) => {" + button.eval + "}")
     await fun(singleSelect.value, multiSelect.value, {
         model: props.model,
