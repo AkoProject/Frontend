@@ -1,9 +1,11 @@
 import MenuItem from "./MenuItem.ts";
-import {createVNode} from "vue";
+import {Component, createVNode, VNode} from "vue";
 import {Menu} from "@element-plus/icons-vue";
 import MenuGroup from "./MenuGroup.ts";
 import {AkoApi, DefaultAkoApi} from "../api/api.ts";
 import {Ako} from "../ako.ts";
+import AuthLogo from "../../view/components/AuthLogo.vue";
+import MainLogo from "../../view/components/MainLogo.vue";
 
 
 export interface AkoOptions {
@@ -13,6 +15,8 @@ export interface AkoOptions {
     channel?: string
     dashboard?: MenuItem
     menuItems?: (MenuItem | MenuGroup)[]
+    authLogo?: Component | VNode | (() => VNode)
+    mainLogo?: Component | VNode | (() => VNode)
 }
 
 export const defaultOptions: AkoOptions = {
@@ -28,7 +32,9 @@ export const defaultOptions: AkoOptions = {
         page: createVNode("div", {class: "hFull bg-white br4"}),
         index: 0
     },
-    menuItems: []
+    menuItems: [],
+    authLogo: AuthLogo,
+    mainLogo: MainLogo
 }
 
 export function margeOptions(options?: AkoOptions): AkoOptions {
