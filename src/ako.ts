@@ -18,6 +18,7 @@ import AkoEntityEditColumnPanel from "../view/fragments/AkoEntityEditColumnPanel
 import AkoMainView from "../view/views/AkoMainView.vue";
 import AkoBootView from "../view/views/AkoBootView.vue";
 import AkoEntityTableHideColumn from "../view/fragments/AkoEntityTableHideColumn.vue";
+import AkoEntitySearchProperty from "../view/fragments/AkoEntitySearchProperty.vue";
 
 export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
@@ -93,6 +94,7 @@ const defaultMap = {
     "default-entity-table-node": AkoEntityTablePanel,
     "default-entity-edit-node": AkoEntityEditPanel,
 
+    "default-entity-search-property-node": AkoEntitySearchProperty,
     "default-entity-search-column-node": AkoEntitySearchColumnPanel,
     "default-entity-table-column-node": AkoEntityTableColumnPanel,
     "default-entity-edit-column-node": AkoEntityEditColumnPanel,
