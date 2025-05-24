@@ -9,18 +9,29 @@
         @sort-change="handleSortChange"
     >
         <el-table-column type="selection" width="55"/>
-        <el-table-column
-            v-for="it in prop.model.fields.filter(it => !it.tableIgnore)"
-            :prop="it.id"
-            :label="it.name"
-            show-overflow-tooltip
-            sortable="custom"
-            :min-width="it.columnWidth"
-        >
-            <template #default="scope">
-                <component :is="renderColumn(it,scope.row)"/>
-            </template>
-        </el-table-column>
+        <template v-for="field in model.fields">
+            <el-table-column
+                v-if="field.column"
+                :prop="field.id"
+                :label="field.name"
+                show-overflow-tooltip
+                sortable="custom"
+                :min-width="field.column.width"
+            >
+                <template #default="scope">
+                    <component
+                        :is="ako.findComponent(field.column.component)"
+                        :model="model"
+                        :field="field"
+                        :mappings="mappings"
+                        :entities="entities"
+                        :row="scope.row"
+                        :data="scope.row[field.id]"
+                    />
+                </template>
+            </el-table-column>
+        </template>
+
         <el-table-column v-if="prop.viewMode === 'search'" fixed="right" label="操作" min-width="50">
             <template #default="scope">
                 <el-button link type="primary" size="small" @click="prop.selectFun(scope.row)">选择</el-button>
@@ -79,19 +90,6 @@ const prop = defineProps<{
     editFun: (data: {}) => any,
     viewMode: "manager" | "search"
 }>()
-
-function renderColumn(field: DbField, data: any) {
-    return () => createVNode(
-        ako.findComponent(field.tableNode),
-        {
-            model: prop.model,
-            field: field,
-            row: data,
-            data: data[field.id],
-            mappings: prop.mappings
-        }
-    )
-}
 
 async function deleteEntry(id: number) {
     await api.model.delete(prop.model.id, [id])

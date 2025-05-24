@@ -1,5 +1,6 @@
 import {SearchInfo} from "./SearchInfo.ts";
 import {EditInfo} from "./EditInfo.ts";
+import {ColumnInfo} from "./ColumnInfo.ts";
 
 export default interface DbField {
     id: string
@@ -8,7 +9,7 @@ export default interface DbField {
 
     search: SearchInfo
     edit: EditInfo
-    columnWidth: string
+    column: ColumnInfo
 
     tableIgnore : boolean
 
