@@ -1,5 +1,7 @@
 <template>
-    <component :is="view"/>
+    <el-form-item :label="field.name" :rules="rules" :prop="field.id">
+        <component :is="view"/>
+    </el-form-item>
 </template>
 
 <script setup lang="tsx">
@@ -9,10 +11,13 @@ import DbField from "../../src/type/DbField.ts";
 import {ElDatePicker, ElInput, ElOption, ElSelect, ElTimePicker} from "element-plus";
 import AkoEntityEditMappingColumnPanel from "./AkoEntityEditMappingColumnPanel.vue";
 import {enumMap} from "../../src/fun/enum.ts";
+import {EditInfo} from "../../src/type/EditInfo.ts";
+import axios from "axios";
 
 const props = defineProps<{
     model: DbModel,
     field: DbField,
+    edit: EditInfo,
     data: {},
     entities: [],
     mappings: []
@@ -21,8 +26,37 @@ const props = defineProps<{
 const modelValue = defineModel()
 
 const field = props.field
+const edit = props.edit
 const type = props.field.type
 const subtype = props.field.subtype
+
+const rules = edit.validate.length ? edit.validate.map(v => {
+    if (v.require) return {required: true, message: v.message, trigger: 'blur'}
+    if (v.regexp) return {pattern: v.regexp, message: v.message, trigger: 'blur'}
+    if (v.min || v.max) return {min: v.min, max: v.max, message: v.message, trigger: 'blur'}
+    if (v.fetch) return {
+        validator: (rule: any, value: any, callback: (error?: any) => void) => {
+            axios.post(v.fetch, {
+                model: props.model.id,
+                field: props.field.id,
+                data: props.data,
+                value: value
+            }).then(resp => callback(resp.data.success ? undefined : new Error(v.message)))
+                .catch(err => callback(new Error(`参数远程验证失败: ${err.message}`)))
+        },
+        trigger: 'blur'
+    }
+    if (v.eval) return {
+        validator: (rule: any, value: any, callback: (error?: any) => void) => {
+            const fun = eval("async (value, data, model, field) => {" + v.eval + "}")
+            fun(value, props.data, props.model, props.field)
+                .then(callback)
+                .catch(() => callback(new Error(v.message)))
+        },
+        trigger: 'blur'
+    }
+    return undefined
+}).filter(it => it) : undefined
 
 
 function render(): VNode {
@@ -31,7 +65,7 @@ function render(): VNode {
     const defaultProps = {
         placeholder: field.name,
         modelValue: modelValue.value,
-        disabled: !field.editable,
+        disabled: !edit.editable,
         'onUpdate:modelValue': (value) => modelValue.value = value
     }
 

@@ -36,7 +36,7 @@ const field = props.field
 const type = field.type
 const subtype = field.subtype
 
-const disabled = ref(!field.editable || (subtype == 1 && (props.data[field.content] == null || props.data[field.content] == '')))
+const disabled = ref(!field.edit.editable || (subtype == 1 && (props.data[field.content] == null || props.data[field.content] == '')))
 
 if (subtype == 1)
     watch(() => props.data[field.content], (value) => {
