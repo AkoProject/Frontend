@@ -7,4 +7,5 @@ export default interface ButtonEntry {
     eval?: string
     reconfirm?: string
     type: "primary" | "success" | "warning" | "danger" | "info" | "text"
+    component?: string
 }

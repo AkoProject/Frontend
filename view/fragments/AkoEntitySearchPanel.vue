@@ -17,7 +17,17 @@
             <el-button type="primary" @click="searchFun">查询</el-button>
         </template>
         <template v-else v-for="button in model.modelButtons">
-            <el-popconfirm v-if="button.reconfirm" :title="button.reconfirm" @confirm="callButton(button)">
+            <component
+                v-if="button.component"
+                :is="ako.findComponent(button.component)"
+                :model="model"
+                :searchData="searchData"
+                :single="singleSelect"
+                :multi="multiSelect"
+                @search="searchFun"
+                @edit="editFun"
+            />
+            <el-popconfirm v-else-if="button.reconfirm" :title="button.reconfirm" @confirm="callButton(button)">
                 <template #reference>
                     <el-button :type="button.type">{{ button.name }}</el-button>
                 </template>

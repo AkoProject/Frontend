@@ -40,8 +40,16 @@
         <el-table-column v-else-if="model.operateButtons.length" fixed="right" label="操作" min-width="100">
             <template #default="scope">
                 <template v-for="button in model.operateButtons">
+                    <component
+                        v-if="button.component"
+                        :is="ako.findComponent(button.component)"
+                        :model="model"
+                        :mappings="mappings"
+                        :entities="entities"
+                        :row="scope.row"
+                    />
                     <el-popconfirm
-                        v-if="button.reconfirm"
+                        v-else-if="button.reconfirm"
                         :title="button.reconfirm"
                         @confirm="callButton(button, scope.row)"
                     >
