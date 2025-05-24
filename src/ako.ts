@@ -17,6 +17,7 @@ import AkoEntityEditPanel from "../view/fragments/AkoEntityEditPanel.vue";
 import AkoEntityEditColumnPanel from "../view/fragments/AkoEntityEditColumnPanel.vue";
 import AkoMainView from "../view/views/AkoMainView.vue";
 import AkoBootView from "../view/views/AkoBootView.vue";
+import AkoEntityTableHideColumn from "../view/fragments/AkoEntityTableHideColumn.vue";
 
 export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
@@ -95,6 +96,7 @@ const defaultMap = {
     "default-entity-search-column-node": AkoEntitySearchColumnPanel,
     "default-entity-table-column-node": AkoEntityTableColumnPanel,
     "default-entity-edit-column-node": AkoEntityEditColumnPanel,
+    "default-entity-table-hide-column-node": AkoEntityTableHideColumn,
 }
 
 function registerElementIcon(app: App) {
