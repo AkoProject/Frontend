@@ -1,6 +1,6 @@
 <template>
     <el-table
-        :data="prop.entities"
+        :data="tableData"
         stripe
         highlight-current-row
         style="width: 100%"
@@ -9,28 +9,27 @@
         @sort-change="handleSortChange"
     >
         <el-table-column type="selection" width="55"/>
-        <template v-for="field in model.fields">
-            <el-table-column
-                v-if="field.column"
-                :prop="field.id"
-                :label="field.name"
-                show-overflow-tooltip
-                sortable="custom"
-                :min-width="field.column.width"
-            >
-                <template #default="scope">
-                    <component
-                        :is="ako.findComponent(field.column.component)"
-                        :model="model"
-                        :field="field"
-                        :mappings="mappings"
-                        :entities="entities"
-                        :row="scope.row"
-                        :data="scope.row[field.id]"
-                    />
-                </template>
-            </el-table-column>
-        </template>
+        <el-table-column
+            v-for="field in fields"
+            :key="field.id"
+            :prop="field.id"
+            :label="field.name"
+            show-overflow-tooltip
+            sortable="custom"
+            :min-width="field.column.width"
+        >
+            <template #default="scope">
+                <component
+                    :is="ako.findComponent(field.column.component)"
+                    :model="model"
+                    :field="field"
+                    :mappings="mappings"
+                    :entities="entities"
+                    :row="scope.row"
+                    :data="scope.row[field.id]"
+                />
+            </template>
+        </el-table-column>
 
         <el-table-column v-if="prop.viewMode === 'search'" fixed="right" label="操作" min-width="50">
             <template #default="scope">
@@ -47,6 +46,8 @@
                         :mappings="mappings"
                         :entities="entities"
                         :row="scope.row"
+                        @search="searchFun"
+                        @edit="editFun"
                     />
                     <el-popconfirm
                         v-else-if="button.reconfirm"
@@ -69,7 +70,7 @@
 <script setup lang="tsx">
 import DbModel from "../../src/type/DbModel.ts";
 import DbField from "../../src/type/DbField.ts";
-import {createVNode, inject, ref, watch} from "vue";
+import {createVNode, inject, nextTick, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import ButtonEntry from "../../src/type/ButtonEntry.ts";
 
@@ -85,8 +86,6 @@ function handleSortChange(data: { column: any, prop: any, order: 'ascending' | '
     if (data.order == 'ascending') orderData.value[data.prop] = 'asc'
     else if (data.order == 'descending') orderData.value[data.prop] = 'desc'
     else delete orderData.value[data.prop]
-
-    console.log(orderData.value)
 }
 
 const prop = defineProps<{
@@ -98,6 +97,20 @@ const prop = defineProps<{
     editFun: (data: {}) => any,
     viewMode: "manager" | "search"
 }>()
+
+const tableData = ref<any[]>(prop.entities)
+watch(() => prop.entities, value => {
+    tableData.value = []
+    nextTick(() => tableData.value = value)
+})
+
+
+const fields = prop.model.fields.filter(it => it.column)
+fields.forEach((it, index) => {
+    if (it.column.index == undefined) it.column.index = index
+})
+
+fields.sort((a, b) => a.column.index - b.column.index)
 
 async function deleteEntry(id: number) {
     await api.model.delete(prop.model.id, [id])
