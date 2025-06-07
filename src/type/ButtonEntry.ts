@@ -1,5 +1,5 @@
 
-export default interface ButtonEntry {
+export interface ButtonEntry {
     name: string
     index: number
     url: string

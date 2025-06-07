@@ -68,11 +68,11 @@
 </template>
 
 <script setup lang="tsx">
-import DbModel from "../../src/type/DbModel.ts";
-import DbField from "../../src/type/DbField.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
+import {DbField} from "../../src/type/DbField.ts";
 import {createVNode, inject, nextTick, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
-import ButtonEntry from "../../src/type/ButtonEntry.ts";
+import {ButtonEntry} from "../../src/type/ButtonEntry.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)

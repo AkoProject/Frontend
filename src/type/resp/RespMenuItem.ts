@@ -1,5 +1,5 @@
 
-export default interface RespMenuItem {
+export interface RespMenuItem {
     identifier: string
     name: string
     displayAble: boolean

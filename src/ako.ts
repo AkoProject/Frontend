@@ -11,12 +11,10 @@ import AkoEntityTablePanel from "../view/fragments/AkoEntityTablePanel.vue";
 import AkoEntityTableColumnPanel from "../view/fragments/AkoEntityTableColumnPanel.vue";
 import AkoEntitySearchColumnPanel from "../view/fragments/AkoEntitySearchColumnPanel.vue";
 import {zhCn} from "element-plus/es/locale/index";
-import DbModel from "./type/DbModel.ts";
+import {DbModel} from "./type/DbModel.ts";
 import {AkoApi} from "./api/api.ts";
 import AkoEntityEditPanel from "../view/fragments/AkoEntityEditPanel.vue";
 import AkoEntityEditColumnPanel from "../view/fragments/AkoEntityEditColumnPanel.vue";
-import AkoMainView from "../view/views/AkoMainView.vue";
-import AkoBootView from "../view/views/AkoBootView.vue";
 import AkoEntityTableHideColumn from "../view/fragments/AkoEntityTableHideColumn.vue";
 import AkoEntitySearchProperty from "../view/fragments/AkoEntitySearchProperty.vue";
 
@@ -24,10 +22,7 @@ export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
 export const AkoApiSymbol = Symbol("AkoApi") as InjectionKey<AkoApi>
 
-export {AkoMainView}
-export {AkoBootView}
-
-export class Ako implements ObjectPlugin<AkoOptions>{
+export class Ako implements ObjectPlugin<AkoOptions> {
     get api(): AkoApi {
         return this._api;
     }

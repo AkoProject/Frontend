@@ -39,10 +39,10 @@
 import {inject, onMounted, ref} from "vue";
 import H20 from "../components/h20.vue";
 import AkoTabButton from "../components/AkoTabButton.vue";
-import MenuItem from "../../src/type/MenuItem.ts";
+import {MenuItem} from "../../src/type/MenuItem.ts";
 import {ElIcon, ElMenu, ElSubMenu, ElMenuItem} from "element-plus";
-import MenuAble from "../../src/type/MenuAble.ts";
-import MenuGroup from "../../src/type/MenuGroup.ts";
+import {MenuAble} from "../../src/type/MenuAble.ts";
+import {MenuGroup} from "../../src/type/MenuGroup.ts";
 import {AkoApiSymbol, AkoOptionsSymbol, AkoSymbol} from "../../src/ako.ts";
 import DialogManager from "./DialogManager.vue";
 

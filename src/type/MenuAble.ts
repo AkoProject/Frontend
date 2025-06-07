@@ -1,6 +1,6 @@
 import {VNode} from "vue";
 
-export default interface MenuAble {
+export interface MenuAble {
     id: string
     name: string
     previous?: string

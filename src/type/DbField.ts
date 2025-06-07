@@ -2,7 +2,7 @@ import {SearchInfo} from "./SearchInfo.ts";
 import {EditInfo} from "./EditInfo.ts";
 import {ColumnInfo} from "./ColumnInfo.ts";
 
-export default interface DbField {
+export interface DbField {
     id: string
     name: string
     description: string

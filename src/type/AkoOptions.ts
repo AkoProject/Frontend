@@ -1,7 +1,7 @@
-import MenuItem from "./MenuItem.ts";
+import {MenuItem} from "./MenuItem.ts";
 import {Component, createVNode, VNode} from "vue";
 import {Menu} from "@element-plus/icons-vue";
-import MenuGroup from "./MenuGroup.ts";
+import {MenuGroup} from "./MenuGroup.ts";
 import {AkoApi, DefaultAkoApi} from "../api/api.ts";
 import {Ako} from "../ako.ts";
 import AuthLogo from "../../view/components/AuthLogo.vue";

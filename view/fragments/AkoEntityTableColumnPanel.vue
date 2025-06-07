@@ -4,8 +4,8 @@
 
 <script setup lang="tsx">
 import {createVNode, VNode} from "vue";
-import DbField from "../../src/type/DbField.ts";
-import DbModel from "../../src/type/DbModel.ts";
+import {DbField} from "../../src/type/DbField.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
 import dayjs from "dayjs";
 import {ElLink, ElImage, ElTooltip, ElMessageBox} from "element-plus";
 import {findEnumMappingEntity, findMappingEntity} from "../../src/fun/mappings.ts";

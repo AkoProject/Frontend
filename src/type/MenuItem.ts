@@ -1,7 +1,7 @@
 import {VNode} from "vue";
-import MenuAble from "./MenuAble.ts";
+import {MenuAble} from "./MenuAble.ts";
 
-export default interface MenuItem extends MenuAble {
+export interface MenuItem extends MenuAble {
 
     closeable: boolean
 

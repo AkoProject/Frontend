@@ -1,7 +1,7 @@
-import DbField from "./DbField.ts";
-import ButtonEntry from "./ButtonEntry.ts";
+import {DbField} from "./DbField.ts";
+import {ButtonEntry} from "./ButtonEntry.ts";
 
-export default interface DbModel {
+export interface DbModel {
     id: string
     name: string
 

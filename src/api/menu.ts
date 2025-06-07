@@ -1,11 +1,11 @@
-import MenuAble from "../type/MenuAble.ts";
+import {MenuAble} from "../type/MenuAble.ts";
 import {DefaultAkoApi} from "./api.ts";
 import {createVNode} from "vue";
-import DbModel from "../type/DbModel.ts";
+import {DbModel} from "../type/DbModel.ts";
 import {Ako} from "../ako.ts";
-import MenuItem from "../type/MenuItem.ts";
-import RespMenuItem from "../type/resp/RespMenuItem.ts";
-import MenuGroup from "../type/MenuGroup.ts";
+import {MenuItem} from "../type/MenuItem.ts";
+import {RespMenuItem} from "../type/resp/RespMenuItem.ts";
+import {MenuGroup} from "../type/MenuGroup.ts";
 
 export interface MenuApi {
     all(): Promise<MenuAble[]>

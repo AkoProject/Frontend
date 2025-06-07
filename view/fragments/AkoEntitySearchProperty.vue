@@ -14,8 +14,8 @@
 </template>
 
 <script setup lang="ts">
-import DbModel from "../../src/type/DbModel.ts";
-import DbField from "../../src/type/DbField.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
+import {DbField} from "../../src/type/DbField.ts";
 import {inject} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 

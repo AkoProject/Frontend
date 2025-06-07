@@ -45,12 +45,12 @@
 </template>
 
 <script setup lang="ts">
-import DbModel from "../../src/type/DbModel.ts";
-import DbField from "../../src/type/DbField.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
+import {DbField} from "../../src/type/DbField.ts";
 import {createVNode, inject, ref, VNode, watch} from "vue";
 import H10 from "../components/h10.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
-import ButtonEntry from "../../src/type/ButtonEntry.ts";
+import {ButtonEntry} from "../../src/type/ButtonEntry.ts";
 import {dialog} from "../../src/fun/dialog.ts";
 import axios from "axios";
 import {ElMessage} from "element-plus";

@@ -36,7 +36,7 @@
 
 <script setup lang="ts">
 import H20 from "../components/h20.vue";
-import DbModel from "../../src/type/DbModel.ts";
+import {DbModel} from "../../src/type/DbModel.ts";
 import {createVNode, inject, onMounted, ref, watch} from "vue";
 import Panel from "../components/Panel.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";

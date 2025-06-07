@@ -13,8 +13,8 @@
 </template>
 
 <script setup lang="ts">
-import DbField from "../../src/type/DbField.ts";
-import DbModel from "../../src/type/DbModel.ts";
+import {DbField} from "../../src/type/DbField.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
 import {inject, ref, VNode, watch} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {enumMapOf} from "../../src/fun/enum.ts";

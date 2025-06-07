@@ -23,7 +23,7 @@
 
 <script setup lang="ts">
 import {ElMessageBox, ElForm} from "element-plus";
-import DbModel from "../../src/type/DbModel.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
 import {inject, ref, useTemplateRef} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 

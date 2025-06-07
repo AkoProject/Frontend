@@ -4,8 +4,8 @@
 
 <script setup lang="tsx">
 import {createVNode, VNode} from "vue";
-import DbModel from "../../src/type/DbModel.ts";
-import DbField from "../../src/type/DbField.ts";
+import {DbModel} from"../../src/type/DbModel.ts";
+import {DbField} from "../../src/type/DbField.ts";
 import {ElDatePicker, ElInput, ElOption, ElSelect, ElTimePicker} from "element-plus";
 import AkoEntitySearchMappingColumnPanel from "./AkoEntitySearchMappingColumnPanel.vue";
 import {enumMap} from "../../src/fun/enum.ts";
