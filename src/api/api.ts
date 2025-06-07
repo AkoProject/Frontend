@@ -27,7 +27,7 @@ export class DefaultAkoApi implements AkoApi {
     }
 
     async post<T>(url: string, data: {} = {}): Promise<T> {
-        return (await axios.post(this.baseUrl + url, data))?.data
+        return this.resultOf(await axios.post(this.baseUrl + url, data, {validateStatus: () => true}))
     }
 
     async get<T>(url: string, data: {} = {}): Promise<T> {
@@ -37,13 +37,14 @@ export class DefaultAkoApi implements AkoApi {
                 url += `&${key}=${data[key]}`
             })
         }
-        return (await axios.get(this.baseUrl + url))?.data
+        return this.resultOf(await axios.get(this.baseUrl + url, {validateStatus: () => true}))
     }
 
     resultOf<T>(resp: AxiosResponse): T {
         if (resp.status >= 200 && resp.status < 300) {
             return resp.data
         }
+        if (resp.status == 401) location.reload()
         throw new Error(`Request failed with status code ${resp.status}`)
     }
 }

@@ -21,7 +21,7 @@ export class DefaultModelApi implements ModelApi {
                 if (searchData[key] === "") delete searchData[key]
                 else searchData[key] = `%${searchData[key]}%`
             })
-        return this.api.post("model/page", {model: model, page: pid, size: pSize, params: searchData, sort: sortData})
+        return this.api.post(`model/page/${model}`, {page: pid, size: pSize, params: searchData, sort: sortData})
     }
 
     delete(model: string, id: number[]): Promise<any> {

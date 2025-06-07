@@ -64,6 +64,7 @@
 import {ref, reactive, inject} from 'vue'
 import {User, Lock} from '@element-plus/icons-vue'
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
+import {ElMessage} from "element-plus";
 
 const ako = inject(AkoSymbol)
 
@@ -90,7 +91,11 @@ const handleLogin = () => {
     loginForm.value.validate(valid => {
         if (valid) {
             loading.value = true
-            login().catch(() => loading.value = false)
+            login().catch(() => {
+                ElMessage.error('登录失败，请检查用户名和密码')
+                loading.value = false
+            })
+
         }
     })
 }

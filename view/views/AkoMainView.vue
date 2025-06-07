@@ -14,6 +14,7 @@
                     <div class="scrollbar-flex-content">
                         <ako-tab-button
                             v-for="item in openMenus"
+                            :key="item.id"
                             :name="item.name"
                             :is-selected="currentSelect === item"
                             :closeable="item.closeable"
@@ -26,7 +27,7 @@
             <div class="body">
 
                 <div class="page">
-                    <component v-for="item in openMenus" :is="item.page" v-show="currentSelect === item"/>
+                    <component v-for="item in openMenus" :key="item.id" :is="item.page" v-show="currentSelect === item"/>
                 </div>
             </div>
         </el-main>
