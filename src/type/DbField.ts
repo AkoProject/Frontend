@@ -7,9 +7,9 @@ export interface DbField {
     name: string
     description: string
 
-    search: SearchInfo
-    edit: EditInfo
-    column: ColumnInfo
+    search?: SearchInfo
+    edit?: EditInfo
+    column?: ColumnInfo
 
     tableIgnore : boolean
 
