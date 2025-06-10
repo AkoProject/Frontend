@@ -8,7 +8,7 @@ export default defineConfig({
         vue(),
         dts({
             outDir: "dist/types",
-            include: ['src/**/*', 'view/**/*'],
+            include: ['export.ts', 'src/**/*.ts', 'src/**/*.vue'],
             staticImport: true,
             rollupTypes: true
         }),
@@ -20,7 +20,7 @@ export default defineConfig({
     },
     build: {
         lib: {
-            entry: 'src/ako.ts',
+            entry: 'export.ts',
             name: 'ako',
             formats: ['es', 'umd'],
             fileName: (format) => `ako.${format}.js`,
