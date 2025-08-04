@@ -3,8 +3,6 @@ master:
     - docker:
         image: node:23
       stages:
-        - name: install yarn
-          script: npm install -g yarn
         - name: install dependencies
           script: yarn install
         - name: build
