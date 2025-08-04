@@ -1,0 +1,12 @@
+master:
+  push:
+    - docker: node:23
+    - stages:
+        - name: install yarn
+          script: npm install -g yarn
+        - name: install dependencies
+          script: yarn install
+        - name: build
+          script: yarn build
+        - name: publish
+          script: yarn publish --non-interactive --no-git-tag-version
