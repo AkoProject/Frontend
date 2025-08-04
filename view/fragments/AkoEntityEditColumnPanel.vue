@@ -6,9 +6,9 @@
 
 <script setup lang="tsx">
 import {createVNode, VNode} from "vue";
-import {DbModel} from"../../src/type/DbModel.ts";
+import {DbModel} from "../../src/type/DbModel.ts";
 import {DbField} from "../../src/type/DbField.ts";
-import {ElDatePicker, ElInput, ElOption, ElSelect, ElTimePicker} from "element-plus";
+import {ElDatePicker, ElInput, ElMessage, ElOption, ElSelect, ElTimePicker} from "element-plus";
 import AkoEntityEditMappingColumnPanel from "./AkoEntityEditMappingColumnPanel.vue";
 import {enumMap} from "../../src/fun/enum.ts";
 import {EditInfo} from "../../src/type/EditInfo.ts";
@@ -74,6 +74,7 @@ function render(): VNode {
     }
 
     if (type === 0) return node(ElInput, {clearable: true})
+    if (type === 1) return node(ElInput, {type: 'textarea', rows: 3, clearable: true})
 
     if (type === 40)
         switch (subtype) {
