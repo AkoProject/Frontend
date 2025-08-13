@@ -33,7 +33,7 @@ const subtype = field.subtype
 const disabled = ref(subtype == 1)
 
 if (subtype == 1)
-    watch(() => props.searchData[field.content + '_eq'], (value) => {
+    watch(() => props.searchData[field.content], (value) => {
         disabled.value = !(value !== undefined && value !== null && value !== '');
         if (disabled.value) modelValue.value = inputValue.value = ''
     })
