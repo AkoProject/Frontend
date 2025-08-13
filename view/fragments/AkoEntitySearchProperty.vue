@@ -8,7 +8,7 @@
             :placeholder="entry.placeholder"
             :width="entry.width"
             :searchData="data"
-            v-model="data[`${field.id}_${entry.opt}`]"
+            v-model="data[searchKey(entry.opt)]"
         />
     </el-form-item>
 </template>
@@ -21,6 +21,11 @@ import {AkoSymbol} from "../../src/ako.ts";
 
 const ako = inject(AkoSymbol)
 
-defineProps<{ model: DbModel, field: DbField }>()
+const props = defineProps<{ model: DbModel, field: DbField }>()
 const data = defineModel({required: true})
+
+function searchKey(opt: string) {
+    if (opt == 'eq') return props.field.id
+    return `${props.field.id}_${opt}`
+}
 </script>
