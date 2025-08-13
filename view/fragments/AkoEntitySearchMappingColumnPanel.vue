@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import {DbField} from "../../src/type/DbField.ts";
-import {DbModel} from"../../src/type/DbModel.ts";
+import {DbModel} from "../../src/type/DbModel.ts";
 import {inject, ref, VNode, watch} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {enumMapOf} from "../../src/fun/enum.ts";
@@ -33,7 +33,7 @@ const subtype = field.subtype
 const disabled = ref(subtype == 1)
 
 if (subtype == 1)
-    watch(() => props.searchData[field.content], (value) => {
+    watch(() => props.searchData[field.content + '_eq'], (value) => {
         disabled.value = !(value !== undefined && value !== null && value !== '');
         if (disabled.value) modelValue.value = inputValue.value = ''
     })
