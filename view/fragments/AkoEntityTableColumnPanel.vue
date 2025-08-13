@@ -24,7 +24,7 @@ function span(text: string, props = {}): VNode {
 }
 
 function makeRender(): VNode {
-    if (!data && data !== 0) return span("null", {style: "color: #ccc"})
+    if (data == null) return span("null", {style: "color: #ccc"})
     if (type === -1 || type === 0) return span(data)
 
     if (type === 40)
