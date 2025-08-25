@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column v-else-if="model.operateButtons.length" fixed="right" label="操作" min-width="100">
             <template #default="scope">
-                <template v-for="button in model.operateButtons">
+                <template v-for="button in buttons">
                     <component
                         v-if="button.component"
                         :is="ako.findComponent(button.component)"
@@ -69,10 +69,10 @@
 
 <script setup lang="tsx">
 import {DbModel} from"../../src/type/DbModel.ts";
-import {DbField} from "../../src/type/DbField.ts";
-import {createVNode, inject, nextTick, ref, watch} from "vue";
+import {inject, nextTick, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import {ButtonEntry} from "../../src/type/ButtonEntry.ts";
+import {ProButton, toProButton} from "../../src/fun/ProButton.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -98,6 +98,8 @@ const prop = defineProps<{
     viewMode: "manager" | "search"
 }>()
 
+const buttons = ref(prop.model.operateButtons.map(it => toProButton(it, ako, prop.model, prop.searchFun, prop.editFun)))
+
 const tableData = ref<any[]>(prop.entities)
 watch(() => prop.entities, value => {
     tableData.value = []
@@ -117,13 +119,13 @@ async function deleteEntry(id: number) {
     await prop.searchFun()
 }
 
-async function callButton(button: ButtonEntry, entity: {}) {
-    const fun = eval("async(entity,props) => {" + button.eval + "}")
-    await fun(entity, {
-        model: prop.model,
-        search: prop.searchFun,
-        edit: prop.editFun
-    })
+async function callButton(button: ProButton, entity: {}) {
+    button.loading = true
+    try {
+        await button.execute(entity, null)
+    } finally {
+        button.loading = false
+    }
 }
 
 </script>

@@ -45,22 +45,16 @@
 </template>
 
 <script setup lang="ts">
-import {DbModel} from"../../src/type/DbModel.ts";
-import {DbField} from "../../src/type/DbField.ts";
-import {createVNode, inject, ref, VNode, watch} from "vue";
-import H10 from "../components/h10.vue";
-import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
+import {DbModel} from "../../src/type/DbModel.ts";
+import {inject, ref} from "vue";
+import {AkoSymbol} from "../../src/ako.ts";
 import {ButtonEntry} from "../../src/type/ButtonEntry.ts";
-import {dialog} from "../../src/fun/dialog.ts";
-import axios from "axios";
-import {ElMessage} from "element-plus";
+import {ProButton, toProButton} from "../../src/fun/ProButton.ts";
 
-const api = inject(AkoApiSymbol)
+const ako = inject(AkoSymbol)
 
 const singleSelect = defineModel<any>('single', {required: true})
 const multiSelect = defineModel<any[]>('multi', {required: true})
-
-const ako = inject(AkoSymbol)
 
 const props = defineProps<{
     model: DbModel,
@@ -69,12 +63,12 @@ const props = defineProps<{
     editFun: (entity: {}) => void
 }>()
 
-const buttons = ref(props.model.modelButtons.map(it => toProButton(it)))
 
 const searchData = defineModel<{}>()
 
 const model = props.model
 const fields = model.fields
+const buttons = ref(props.model.modelButtons.map(it => toProButton(it, ako, model, props.searchFun, props.editFun)))
 
 async function modelButton(button: ButtonEntry) {
     window.open(button.url.replace('$id', singleSelect.value.id))
@@ -100,63 +94,11 @@ async function modelButton(button: ButtonEntry) {
 //     })
 // }
 
-interface ProButton extends ButtonEntry {
-    loading: boolean
-    execute: () => Promise<void>
-}
-
-function toProButton(button: ButtonEntry): ProButton {
-    let execute
-    if (button.url) {
-        const mustSingle = button.url.indexOf('${id}') > 0
-        const mustMulti = button.url.indexOf('${ids}') > 0
-        execute = async () => {
-            if (mustMulti && !multiSelect.value.length) {
-                ElMessage.error('请至少勾选一条记录！')
-                return
-            }
-            if (mustSingle && !singleSelect.value) {
-                ElMessage.error('请单选选中一条记录！')
-                return
-            }
-
-            let eu = button.url.replace('${ids}', multiSelect.value.map(it => it.id).join(','))
-            if (singleSelect.value) eu = eu.replace('${id}', singleSelect.value.id)
-
-            if (button.method == "popup") {
-                window.open(eu)
-                return
-            }
-            const result = axios.request({url: eu, method: button.method})
-
-            const data = (await result).data
-            const code = data?.code ?? 0
-            const message = data?.message ?? code == 0 ? '操作成功！' : '操作失败！'
-            if (code == 0) ElMessage.success(message)
-            else ElMessage.error(message)
-        }
-    }
-    if (button.eval) {
-        const fun = eval("async(single,multi,props) => {" + button.eval + "}")
-        execute = async () => await fun(singleSelect.value, multiSelect.value, {
-            model: props.model,
-            search: props.searchFun,
-            edit: props.editFun,
-            api: api,
-            dialog: dialog,
-        })
-    }
-    return {
-        ...button,
-        loading: false,
-        execute: execute
-    }
-}
 
 async function callButton(button: ProButton) {
     button.loading = true
     try {
-        await button.execute()
+        await button.execute(singleSelect.value, multiSelect.value)
     } finally {
         button.loading = false
     }
