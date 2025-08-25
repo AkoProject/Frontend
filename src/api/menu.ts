@@ -1,11 +1,10 @@
 import {MenuAble} from "../type/MenuAble.ts";
 import {DefaultAkoApi} from "./api.ts";
 import {createVNode} from "vue";
-import {DbModel} from "../type/DbModel.ts";
 import {Ako} from "../ako.ts";
 import {MenuItem} from "../type/MenuItem.ts";
-import {RespMenuItem} from "../type/resp/RespMenuItem.ts";
 import {MenuGroup} from "../type/MenuGroup.ts";
+import {MenuResp} from "../type/resp/MenuResp.ts";
 
 export interface MenuApi {
     all(): Promise<MenuAble[]>
@@ -22,10 +21,7 @@ export class DefaultAkoMenu implements MenuApi {
     }
 
     async all(): Promise<MenuAble[]> {
-        const menu = await this.api.get<{
-            menus: RespMenuItem[],
-            models: DbModel[]
-        }>("menu/list/" + this.ako.options.channel)
+        const menu = this.ako.options.mixin(await this.api.get<MenuResp>("menu/list/" + this.ako.options.channel))
 
 
         this.ako.models = menu.models

@@ -6,6 +6,7 @@ import {AkoApi, DefaultAkoApi} from "../api/api.ts";
 import {Ako} from "../ako.ts";
 import AuthLogo from "../../view/components/AuthLogo.vue";
 import MainLogo from "../../view/components/MainLogo.vue";
+import {MenuResp} from "./resp/MenuResp.ts";
 
 
 export interface AkoOptions {
@@ -18,6 +19,7 @@ export interface AkoOptions {
     menuItems?: (MenuItem | MenuGroup)[]
     authLogo?: Component | VNode | (() => VNode)
     mainLogo?: Component | VNode | (() => VNode)
+    mixin?: (resp: MenuResp) => MenuResp
 }
 
 export const defaultOptions: AkoOptions = {
@@ -36,7 +38,8 @@ export const defaultOptions: AkoOptions = {
     },
     menuItems: [],
     authLogo: AuthLogo,
-    mainLogo: MainLogo
+    mainLogo: MainLogo,
+    mixin: (resp) => resp
 }
 
 export function margeOptions(options?: AkoOptions): AkoOptions {
