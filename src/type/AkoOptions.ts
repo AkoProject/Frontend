@@ -12,7 +12,6 @@ import {MenuResp} from "./resp/MenuResp.ts";
 export interface AkoOptions {
     api?: (ako: Ako) => AkoApi
     registerElementIcon?: boolean
-    registerXIcons?: boolean
     baseUrl?: string
     channel?: string
     dashboard?: MenuItem
@@ -26,7 +25,6 @@ export const defaultOptions: AkoOptions = {
     baseUrl: "/api/ako/",
     channel: "manager",
     registerElementIcon: true,
-    registerXIcons: false,
     api: (ako) => new DefaultAkoApi(ako),
     dashboard: {
         id: "dashboard",

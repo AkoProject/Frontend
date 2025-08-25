@@ -1,13 +1,5 @@
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import * as XIconsAntd from '@vicons/antd'
-import * as XIconsCarbon from '@vicons/carbon'
-import * as XIconsFa from '@vicons/fa'
-import * as XIconsFluent from '@vicons/fluent'
-import * as XIconsIon4 from '@vicons/ionicons4'
-import * as XIconsIon5 from '@vicons/ionicons5'
-import * as XIconsMaterial from '@vicons/material'
-import * as XIconsTabler from '@vicons/tabler'
 import 'element-plus/dist/index.css'
 import '../style/style.css'
 import {App, createVNode, InjectionKey, VNode, ObjectPlugin, Component} from "vue";
@@ -63,7 +55,6 @@ export class Ako implements ObjectPlugin<AkoOptions> {
         this._api = this._options.api(this)
 
         if (this._options.registerElementIcon) registerElementIcon(app)
-        if (this._options.registerXIcons) registerXIcons(app)
 
         app.provide(AkoSymbol, this)
         app.provide(AkoOptionsSymbol, this._options)
@@ -117,20 +108,4 @@ function registerElementIcon(app: App) {
         }
         app.component(name, component)
     }
-}
-
-function registerXIcons(app: App) {
-    function xicons(prefix: string, data: Record<string, Component>) {
-        for (const [key, component] of Object.entries(data)) {
-            app.component(`xicons-${prefix}-${key}`, component)
-        }
-    }
-    xicons("antd", XIconsAntd)
-    xicons("carbon", XIconsCarbon)
-    xicons("fa", XIconsFa)
-    xicons("fluent", XIconsFluent)
-    xicons("ion4", XIconsIon4)
-    xicons("ion5", XIconsIon5)
-    xicons("material", XIconsMaterial)
-    xicons("tabler", XIconsTabler)
 }
