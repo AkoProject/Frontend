@@ -36,5 +36,15 @@
         "vite": "^5.1.4",
         "vite-plugin-dts": "^4.2.3",
         "vue-tsc": "^1.8.27"
+    },
+    "peerDependencies": {
+        "@vicons/antd": "^0.13.0",
+        "@vicons/carbon": "^0.13.0",
+        "@vicons/fa": "^0.13.0",
+        "@vicons/fluent": "^0.13.0",
+        "@vicons/ionicons4": "^0.13.0",
+        "@vicons/ionicons5": "^0.13.0",
+        "@vicons/material": "^0.13.0",
+        "@vicons/tabler": "^0.13.0"
     }
 }

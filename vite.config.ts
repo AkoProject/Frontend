@@ -26,7 +26,22 @@ export default defineConfig({
             fileName: (format) => `ako.${format}.js`,
         },
         rollupOptions: {
-            external: ['vue', "element-plus", "@element-plus/icons-vue", "axios", "dayjs", 'element-plus/dist/index.css'],
+            external: [
+                'vue',
+                "element-plus",
+                "@element-plus/icons-vue",
+                "axios",
+                "dayjs",
+                'element-plus/dist/index.css',
+                "@vicons/antd",
+                "@vicons/carbon",
+                "@vicons/fa",
+                "@vicons/fluent",
+                "@vicons/ionicons4",
+                "@vicons/ionicons5",
+                "@vicons/material",
+                "@vicons/tabler",
+            ],
             output: {
                 globals: {
                     vue: 'Vue'
