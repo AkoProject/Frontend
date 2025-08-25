@@ -4,7 +4,7 @@ export interface RespMenuItem {
     name: string
     displayAble: boolean
 
-    previous: string
+    previous?: string
 
     pageNode: string
     searchNode?: string

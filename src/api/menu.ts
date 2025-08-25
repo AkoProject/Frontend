@@ -53,7 +53,8 @@ export class DefaultAkoMenu implements MenuApi {
                     children: []
                 }
                 parentMenuMap[it.identifier] = item
-                menus.push(item)
+                if (it.previous == null) menus.push(item)
+                else parentMenuMap[it.previous].children.push(item)
             })
 
 
