@@ -5,14 +5,17 @@
 
 <script setup lang="ts">
 import {inject, onMounted, ref} from "vue";
-import {AkoApiSymbol} from "../../src/ako.ts";
+import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import AkoMainView from "./AkoMainView.vue";
 import AkoAuthView from "./AkoAuthView.vue";
 
 const view = ref()
 const api = inject(AkoApiSymbol)
+const ako = inject(AkoSymbol)
 onMounted(async () =>{
-    view.value = await api.auth.isAuth() ? AkoMainView : AkoAuthView
+    const isAuth = await api.auth.isAuth()
+    if (isAuth) await ako.options.loginCallback()
+    view.value =  isAuth? AkoMainView : AkoAuthView
 })
 </script>
 
