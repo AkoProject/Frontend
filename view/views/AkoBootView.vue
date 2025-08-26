@@ -1,6 +1,6 @@
 <template>
     <div v-if="!view" class="hFull" v-loading="true"/>
-    <component v-else :is="view"/>
+    <component v-else :is="view" @loginSuccess="view = AkoMainView"/>
 </template>
 
 <script setup lang="ts">

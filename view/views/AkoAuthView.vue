@@ -67,6 +67,7 @@ import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import {ElMessage} from "element-plus";
 
 const ako = inject(AkoSymbol)
+const emits = defineEmits(['loginSuccess'])
 
 const form = reactive({
     username: '',
@@ -102,7 +103,9 @@ const handleLogin = () => {
 
 
 async function login() {
-    if (await api.auth.login(form.username, form.password)) location.reload()
+    await api.auth.login(form.username, form.password)
+    await ako.options.loginCallback()
+    emits('loginSuccess')
 }
 </script>
 

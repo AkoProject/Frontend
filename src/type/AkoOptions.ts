@@ -19,6 +19,7 @@ export interface AkoOptions {
     authLogo?: Component | VNode | (() => VNode)
     mainLogo?: Component | VNode | (() => VNode)
     mixin?: (resp: MenuResp) => MenuResp
+    loginCallback?: () => Promise<void>
 }
 
 export const defaultOptions: AkoOptions = {
@@ -37,7 +38,8 @@ export const defaultOptions: AkoOptions = {
     menuItems: [],
     authLogo: AuthLogo,
     mainLogo: MainLogo,
-    mixin: (resp) => resp
+    mixin: (resp) => resp,
+    loginCallback: () => Promise.resolve()
 }
 
 export function margeOptions(options?: AkoOptions): AkoOptions {
