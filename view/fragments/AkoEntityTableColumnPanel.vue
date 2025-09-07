@@ -4,14 +4,14 @@
 
 <script setup lang="tsx">
 import {createVNode, VNode} from "vue";
-import {DbField} from "../../src/type/DbField.ts";
-import {DbModel} from"../../src/type/DbModel.ts";
 import dayjs from "dayjs";
 import {ElLink, ElImage, ElTooltip, ElMessageBox} from "element-plus";
 import {findEnumMappingEntity, findMappingEntity} from "../../src/fun/mappings.ts";
 import {enumMapOf} from "../../src/fun/enum.ts";
+import {TableModel} from "../../src/type/model/table/TableModel.ts";
+import {TableField} from "../../src/type/model/table/TableField.ts";
 
-const props = defineProps<{ model: DbModel, field: DbField, row: any, data: any, mappings: any }>()
+const props = defineProps<{ model: TableModel, field: TableField, row: any, data: any, mappings: any }>()
 
 const data = props.data
 const field = props.field

@@ -45,11 +45,11 @@
 </template>
 
 <script setup lang="ts">
-import {DbModel} from "../../src/type/DbModel.ts";
 import {inject, ref} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {ButtonEntry} from "../../src/type/ButtonEntry.ts";
 import {ProButton, toProButton} from "../../src/fun/ProButton.ts";
+import {SearchModel} from "../../src/type/model/search/SearchModel.ts";
 
 const ako = inject(AkoSymbol)
 
@@ -57,7 +57,7 @@ const singleSelect = defineModel<any>('single', {required: true})
 const multiSelect = defineModel<any[]>('multi', {required: true})
 
 const props = defineProps<{
-    model: DbModel,
+    model: SearchModel,
     searchFun: () => Promise<void>,
     viewMode: 'manager' | 'search',
     editFun: (entity: {}) => void

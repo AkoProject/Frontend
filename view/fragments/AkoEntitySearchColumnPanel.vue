@@ -4,14 +4,14 @@
 
 <script setup lang="tsx">
 import {createVNode, VNode} from "vue";
-import {DbModel} from"../../src/type/DbModel.ts";
-import {DbField} from "../../src/type/DbField.ts";
 import {ElDatePicker, ElInput, ElOption, ElSelect, ElTimePicker} from "element-plus";
 import AkoEntitySearchMappingColumnPanel from "./AkoEntitySearchMappingColumnPanel.vue";
 import {enumMap} from "../../src/fun/enum.ts";
+import {SearchModel} from "../../src/type/model/search/SearchModel.ts";
+import {SearchField} from "../../src/type/model/search/SearchField.ts";
 
 
-const props = defineProps<{ model: DbModel, field: DbField, placeholder: string, width: string, searchData: {} }>()
+const props = defineProps<{ model: SearchModel, field: SearchField, placeholder: string, width: string, searchData: {} }>()
 
 const modelValue = defineModel()
 

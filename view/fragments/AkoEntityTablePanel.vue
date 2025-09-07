@@ -68,11 +68,10 @@
 </template>
 
 <script setup lang="tsx">
-import {DbModel} from"../../src/type/DbModel.ts";
 import {inject, nextTick, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
-import {ButtonEntry} from "../../src/type/ButtonEntry.ts";
 import {ProButton, toProButton} from "../../src/fun/ProButton.ts";
+import {TableModel} from "../../src/type/model/table/TableModel.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -89,7 +88,7 @@ function handleSortChange(data: { column: any, prop: any, order: 'ascending' | '
 }
 
 const prop = defineProps<{
-    model: DbModel,
+    model: TableModel,
     entities: [],
     mappings: any,
     searchFun: () => Promise<any>,

@@ -14,16 +14,16 @@
 </template>
 
 <script setup lang="ts">
-import {DbField} from "../../src/type/DbField.ts";
-import {DbModel} from "../../src/type/DbModel.ts";
 import {inject, ref, VNode, watch} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {enumMapOf} from "../../src/fun/enum.ts";
 import {dialog} from "../../src/fun/dialog.ts";
+import {SearchModel} from "../../src/type/model/search/SearchModel.ts";
+import {SearchField} from "../../src/type/model/search/SearchField.ts";
 
 const ako = inject(AkoSymbol)
 
-const props = defineProps<{ model: DbModel, field: DbField, placeholder: string, width: string, searchData: {} }>()
+const props = defineProps<{ model: SearchModel, field: SearchField, placeholder: string, width: string, searchData: {} }>()
 const modelValue = defineModel()
 
 const field = props.field

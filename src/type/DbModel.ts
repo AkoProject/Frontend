@@ -1,25 +1,19 @@
 import {DbField} from "./DbField.ts";
-import {ButtonEntry} from "./ButtonEntry.ts";
+import {BaseModel} from "./model/base/BaseModel.ts";
+import {EditModel} from "./model/edit/EditModel.ts";
+import {SearchModel} from "./model/search/SearchModel.ts";
+import {TableModel} from "./model/table/TableModel.ts";
 
-export interface DbModel {
-    id: string
-    name: string
-
+export interface DbModel extends BaseModel, SearchModel, TableModel, EditModel {
     previous: string
 
     pageNode: string
-    searchNode: string
-    tableNode?: string
-    editNode?: string
     iconNode?: string
 
     mappings: string[]
     fields: DbField[]
 
     index: number
-
-    modelButtons: ButtonEntry[]
-    operateButtons: ButtonEntry[]
 }
 
 let models: DbModel[] = []

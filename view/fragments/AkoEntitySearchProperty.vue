@@ -14,14 +14,14 @@
 </template>
 
 <script setup lang="ts">
-import {DbModel} from"../../src/type/DbModel.ts";
-import {DbField} from "../../src/type/DbField.ts";
 import {inject} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
+import {SearchModel} from "../../src/type/model/search/SearchModel.ts";
+import {SearchField} from "../../src/type/model/search/SearchField.ts";
 
 const ako = inject(AkoSymbol)
 
-const props = defineProps<{ model: DbModel, field: DbField }>()
+const props = defineProps<{ model: SearchModel, field: SearchField }>()
 const data = defineModel({required: true})
 
 function searchKey(opt: string) {

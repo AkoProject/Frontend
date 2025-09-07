@@ -13,21 +13,20 @@
 </template>
 
 <script setup lang="ts">
-import {DbField} from "../../src/type/DbField.ts";
-import {DbModel} from"../../src/type/DbModel.ts";
 import {inject, ref, VNode, watch} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {enumMapOf} from "../../src/fun/enum.ts";
 import {findEnumMappingEntity, findMappingEntity} from "../../src/fun/mappings.ts";
 import {dialog} from "../../src/fun/dialog.ts";
+import {EditModel} from "../../src/type/model/edit/EditModel.ts";
+import {EditField} from "../../src/type/model/edit/EditField.ts";
 
 const ako = inject(AkoSymbol)
 
 const props = defineProps<{
-    model: DbModel,
-    field: DbField,
+    model: EditModel,
+    field: EditField,
     data: {},
-    entities: [],
     mappings: []
 }>()
 const modelValue = defineModel<any>({required: true})

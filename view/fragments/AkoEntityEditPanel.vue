@@ -8,7 +8,6 @@
                 :field="field"
                 :edit="field.edit"
                 :mappings="mappings"
-                :entities="entities"
                 :data="data"
                 v-model="data[field.id]"
             />
@@ -23,15 +22,14 @@
 
 <script setup lang="ts">
 import {ElMessageBox, ElForm} from "element-plus";
-import {DbModel} from"../../src/type/DbModel.ts";
 import {inject, ref, useTemplateRef} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
+import {EditModel} from "../../src/type/model/edit/EditModel.ts";
 
 const props = defineProps<{
-    model: DbModel,
+    model: EditModel,
     data: {}
     saveOne: (data: {}) => Promise<void>,
-    entities: [],
     mappings: []
 }>()
 

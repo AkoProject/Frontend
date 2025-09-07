@@ -6,20 +6,19 @@
 
 <script setup lang="tsx">
 import {createVNode, VNode} from "vue";
-import {DbModel} from "../../src/type/DbModel.ts";
-import {DbField} from "../../src/type/DbField.ts";
 import {ElDatePicker, ElInput, ElMessage, ElOption, ElSelect, ElTimePicker} from "element-plus";
 import AkoEntityEditMappingColumnPanel from "./AkoEntityEditMappingColumnPanel.vue";
 import {enumMap} from "../../src/fun/enum.ts";
-import {EditInfo} from "../../src/type/EditInfo.ts";
+import {EditInfo} from "../../src/type/model/edit/EditInfo.ts";
 import axios from "axios";
+import {EditModel} from "../../src/type/model/edit/EditModel.ts";
+import {EditField} from "../../src/type/model/edit/EditField.ts";
 
 const props = defineProps<{
-    model: DbModel,
-    field: DbField,
+    model: EditModel,
+    field: EditField,
     edit: EditInfo,
     data: {},
-    entities: [],
     mappings: []
 }>()
 

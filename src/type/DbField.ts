@@ -1,24 +1,7 @@
-import {SearchInfo} from "./SearchInfo.ts";
-import {EditInfo} from "./EditInfo.ts";
-import {ColumnInfo} from "./ColumnInfo.ts";
+import {BaseField} from "./model/base/BaseField.ts";
+import {EditField} from "./model/edit/EditField.ts";
+import {SearchField} from "./model/search/SearchField.ts";
+import {TableField} from "./model/table/TableField.ts";
 
-export interface DbField {
-    id: string
-    name: string
-    description: string
-
-    search?: SearchInfo
-    edit?: EditInfo
-    column?: ColumnInfo
-
-    tableIgnore : boolean
-
-    tableNode: string
-
-
-    type: number
-    subtype: number
-
-    content: string
-    enum: string[]
+export interface DbField extends BaseField, SearchField, TableField, EditField {
 }

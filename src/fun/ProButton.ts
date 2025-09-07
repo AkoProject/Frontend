@@ -4,7 +4,7 @@ import axios from "axios";
 import {dialog} from "./dialog.ts";
 import {AkoOptions} from "../type/AkoOptions.ts";
 import {Ako} from "../ako.ts";
-import {DbModel} from "../type/DbModel.ts";
+import {BaseModel} from "../type/model/base/BaseModel.ts";
 
 export interface ProButton extends ButtonEntry {
     loading: boolean
@@ -103,7 +103,7 @@ function buttonUrl2(url: string, params: UrlParam[], single: any | undefined, mu
     })
 }
 
-export function toProButton(button: ButtonEntry, ako: Ako, model: DbModel, search: () => void, edit: (e: any) => void): ProButton {
+export function toProButton(button: ButtonEntry, ako: Ako, model: BaseModel, search: () => void, edit: (e: any) => void): ProButton {
     let execute
     if (button.url) {
         const params = buttonUrl(button.url)
