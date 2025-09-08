@@ -85,12 +85,7 @@ function openEditPanel(data: {}, options: { width?: string, title?: string, mode
     dialog({
         title: options.title ?? data['id'] ? '编辑' : '新增',
         style: {'width': options.width ?? '640px'},
-        content: createVNode(ako.findComponent(props.editNode), {
-            ...subNodeProps,
-            data: data,
-            mappings: mappings.value,
-            model: model
-        })
+        content: ako.createEditView(model, data, save, mappings.value)
     })
 }
 

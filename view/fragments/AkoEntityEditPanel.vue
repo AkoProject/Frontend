@@ -31,7 +31,7 @@ const emits = defineEmits(['close'])
 const props = defineProps<{
     model: EditModel,
     data: {}
-    saveOne: (data: {}) => Promise<void>,
+    save: (data: {}) => Promise<void>,
     mappings: []
 }>()
 
@@ -45,7 +45,7 @@ const form = useTemplateRef<InstanceType<typeof ElForm>>('form')
 
 async function save() {
     await form.value.validate()
-    await props.saveOne(data.value)
+    await props.save(data.value)
     emits('close')
 }
 

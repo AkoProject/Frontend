@@ -17,6 +17,7 @@ import AkoEntityEditPanel from "../view/fragments/AkoEntityEditPanel.vue";
 import AkoEntityEditColumnPanel from "../view/fragments/AkoEntityEditColumnPanel.vue";
 import AkoEntityTableHideColumn from "../view/fragments/AkoEntityTableHideColumn.vue";
 import AkoEntitySearchProperty from "../view/fragments/AkoEntitySearchProperty.vue";
+import {EditModel} from "./type/model/edit/EditModel.ts";
 
 export const AkoSymbol = Symbol("AkoApp") as InjectionKey<Ako>
 export const AkoOptionsSymbol = Symbol("AkoOptions") as InjectionKey<AkoOptions>
@@ -78,6 +79,15 @@ export class Ako implements ObjectPlugin<AkoOptions> {
                 selectFun: selectFun
             }
         )
+    }
+
+    createEditView(model: EditModel, data: any, save: (data: any) => Promise<void>, mappings: [] = []): VNode {
+        return createVNode(this.findComponent(model.editNode), {
+            save: save,
+            data: data,
+            mappings: mappings,
+            model: model
+        })
     }
 }
 
