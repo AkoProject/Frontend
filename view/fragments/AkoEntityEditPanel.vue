@@ -15,7 +15,7 @@
 
         <el-form-item>
             <el-button type="primary" @click="save">保存</el-button>
-            <el-button @click="ElMessageBox.close()">取消</el-button>
+            <el-button @click="emits('close')">取消</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -25,6 +25,8 @@ import {ElMessageBox, ElForm} from "element-plus";
 import {inject, ref, useTemplateRef} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {EditModel} from "../../src/type/model/edit/EditModel.ts";
+
+const emits = defineEmits(['close'])
 
 const props = defineProps<{
     model: EditModel,
@@ -44,7 +46,7 @@ const form = useTemplateRef<InstanceType<typeof ElForm>>('form')
 async function save() {
     await form.value.validate()
     await props.saveOne(data.value)
-    ElMessageBox.close()
+    emits('close')
 }
 
 </script>

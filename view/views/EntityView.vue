@@ -40,7 +40,7 @@ import {DbModel} from "../../src/type/DbModel.ts";
 import {createVNode, inject, onMounted, ref, watch} from "vue";
 import Panel from "../components/Panel.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
-import {ElMessageBox} from "element-plus";
+import {dialog} from "../../src/fun/dialog.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -80,17 +80,15 @@ const subNodeProps = {
 
 function openEditPanel(data: {}) {
     console.log(data)
-    ElMessageBox({
-        title: '编辑',
-        customStyle: {'min-width': '640px'},
-        message: createVNode(ako.findComponent(props.editNode), {
+    dialog({
+        title: data['id'] ? '编辑' : '新增',
+        style: {'width': '640px'},
+        content: createVNode(ako.findComponent(props.editNode), {
             data: data,
             entities: entityList.value,
             mappings: mappings.value,
             ...subNodeProps
-        }),
-        showCancelButton: false,
-        showConfirmButton: false
+        })
     })
 }
 
