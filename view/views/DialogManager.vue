@@ -6,6 +6,7 @@
         append-to-body
         :show-close="false"
         :style="it.style"
+        :title="it.title"
     >
         <component :is="it.content"/>
     </el-dialog>

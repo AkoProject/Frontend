@@ -3,6 +3,7 @@ import {CSSProperties, Ref, ref, VNode} from "vue";
 interface DialogOption {
     content: VNode | (() => VNode)
     style?: string | CSSProperties
+    title?: string
 }
 
 interface Dialog {
