@@ -8,7 +8,7 @@
         :style="it.style"
         :title="it.title"
     >
-        <component :is="it.content"/>
+        <component :is="it.content" @close="it.showRef = false"/>
     </el-dialog>
 </template>
 
