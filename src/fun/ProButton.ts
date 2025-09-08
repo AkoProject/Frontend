@@ -167,7 +167,7 @@ export function toProButton(
                 title: button.dialog.title,
                 style: button.dialog.style,
                 showClose: button.dialog.close ?? false,
-                content: () => createVNode(ako.findComponent(button.dialog?.component), null, {
+                content: () => createVNode(ako.findComponent(button.dialog?.component), {
                     single: single,
                     multi: multi,
                     model: model,
