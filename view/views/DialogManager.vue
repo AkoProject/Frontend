@@ -4,7 +4,7 @@
         v-model="it.showRef"
         @closed="closed"
         append-to-body
-        :show-close="false"
+        :show-close="it.showClose"
         :style="it.style"
         :title="it.title"
     >

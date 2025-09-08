@@ -1,5 +1,5 @@
 import {BaseModel} from "../base/BaseModel.ts";
-import {ButtonEntry} from "../../ButtonEntry.ts";
+import {ButtonEntry} from "../button/ButtonEntry.ts";
 import {TableField} from "./TableField.ts";
 
 export interface TableModel extends BaseModel {

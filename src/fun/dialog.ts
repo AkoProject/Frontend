@@ -4,6 +4,7 @@ interface DialogOption {
     content: VNode | (() => VNode)
     style?: string | CSSProperties
     title?: string
+    showClose?: boolean
 }
 
 interface Dialog {

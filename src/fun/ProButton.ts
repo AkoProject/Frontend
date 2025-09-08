@@ -1,10 +1,12 @@
-import {ButtonEntry} from "../type/ButtonEntry.ts";
+import {ButtonEntry} from "../type/model/button/ButtonEntry.ts";
 import {ElMessage} from "element-plus";
 import axios from "axios";
 import {dialog} from "./dialog.ts";
 import {AkoOptions} from "../type/AkoOptions.ts";
 import {Ako} from "../ako.ts";
 import {BaseModel} from "../type/model/base/BaseModel.ts";
+import {EditModel} from "../type/model/edit/EditModel.ts";
+import {createVNode} from "vue";
 
 export interface ProButton extends ButtonEntry {
     loading: boolean
@@ -103,7 +105,13 @@ function buttonUrl2(url: string, params: UrlParam[], single: any | undefined, mu
     })
 }
 
-export function toProButton(button: ButtonEntry, ako: Ako, model: BaseModel, search: () => void, edit: (e: any) => void): ProButton {
+export function toProButton(
+    button: ButtonEntry,
+    ako: Ako,
+    model: BaseModel,
+    search: () => void,
+    edit: (e: any, options?: { width?: string, title?: string, model?: EditModel }) => void
+): ProButton {
     let execute
     if (button.url) {
         const params = buttonUrl(button.url)
@@ -145,6 +153,28 @@ export function toProButton(button: ButtonEntry, ako: Ako, model: BaseModel, sea
             const message = data?.message ?? code == 0 ? '操作成功！' : '操作失败！'
             if (code == 0) ElMessage.success(message)
             else ElMessage.error(message)
+        }
+    }
+    if (button.edit) {
+        const dataFun = button.edit.data ? eval("(it) => " + button.edit.data) : (it: any) => it
+        execute = async (single: any | undefined, multi: any[] | undefined) => {
+            return edit(dataFun(single ?? {}), button.edit)
+        }
+    }
+    if (button.dialog){
+        execute = async (single: any | undefined, multi: any[] | undefined) => {
+            dialog({
+                title: button.dialog.title,
+                style: button.dialog.style,
+                showClose: button.dialog.close ?? false,
+                content: () => createVNode(ako.findComponent(button.dialog?.component), null, {
+                    single: single,
+                    multi: multi,
+                    model: model,
+                    search: search,
+                    edit: edit,
+                })
+            })
         }
     }
     if (button.eval) {
