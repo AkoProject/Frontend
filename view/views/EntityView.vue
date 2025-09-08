@@ -41,6 +41,7 @@ import {createVNode, inject, onMounted, ref, watch} from "vue";
 import Panel from "../components/Panel.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import {dialog} from "../../src/fun/dialog.ts";
+import {EditModel} from "../../src/type/model/edit/EditModel.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -78,16 +79,17 @@ const subNodeProps = {
     viewMode: viewMode
 }
 
-function openEditPanel(data: {}) {
+function openEditPanel(data: {}, options: { width?: string, title?: string, model?: EditModel } = {}) {
     console.log(data)
+    const model = options.model ?? props.model
     dialog({
-        title: data['id'] ? '编辑' : '新增',
-        style: {'width': '640px'},
+        title: options.title ?? data['id'] ? '编辑' : '新增',
+        style: {'width': options.width ?? '640px'},
         content: createVNode(ako.findComponent(props.editNode), {
+            ...subNodeProps,
             data: data,
-            entities: entityList.value,
             mappings: mappings.value,
-            ...subNodeProps
+            model: model
         })
     })
 }
