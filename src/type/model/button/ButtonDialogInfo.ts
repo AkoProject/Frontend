@@ -3,4 +3,6 @@ export interface ButtonDialogInfo {
     style?: string
     title?: string
     close?: boolean
+    needSingle?: boolean
+    needMulti?: boolean
 }

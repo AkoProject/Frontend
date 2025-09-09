@@ -163,6 +163,14 @@ export function toProButton(
     }
     if (button.dialog){
         execute = async (single: any | undefined, multi: any[] | undefined) => {
+            if (button.dialog?.needSingle && !single) {
+                ElMessage.error('请单选选中一条记录！')
+                return
+            }
+            if (button.dialog?.needMulti && (!multi || multi.length == 0)) {
+                ElMessage.error('请至少勾选一条记录！')
+                return
+            }
             dialog({
                 title: button.dialog.title,
                 style: button.dialog.style,
