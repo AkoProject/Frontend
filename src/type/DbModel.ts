@@ -10,7 +10,6 @@ export interface DbModel extends BaseModel, SearchModel, TableModel, EditModel {
     pageNode: string
     iconNode?: string
 
-    mappings: string[]
     fields: DbField[]
 
     index: number
