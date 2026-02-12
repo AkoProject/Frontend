@@ -96,7 +96,7 @@ function render(): VNode {
                 model: props.model,
                 field: field,
             },
-            Object.entries(map).map(([k, v]) => createVNode(ElOption, {key: k, label: v, value: Number(k)}))
+            Object.entries(map).map(([k, v]) => createVNode(ElOption, {key: k, label: v, value: k}))
         )
     }
 

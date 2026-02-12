@@ -10,5 +10,5 @@ export function enumMap(contents: string[]): {} {
 }
 
 export function enumMapOf(contents: string[], key: any): string {
-    return enumMap(contents)[Number(key)] ?? `枚举错误: ${key}`
+    return enumMap(contents)[key] ?? `枚举错误: ${key}`
 }
