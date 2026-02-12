@@ -10,5 +10,6 @@ export function enumMap(contents: string[]): {} {
 }
 
 export function enumMapOf(contents: string[], key: any): string {
+    if (typeof key == "boolean") key = Number(key)
     return enumMap(contents)[key] ?? `枚举错误: ${key}`
 }

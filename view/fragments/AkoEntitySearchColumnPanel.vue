@@ -11,7 +11,13 @@ import {SearchModel} from "../../src/type/model/search/SearchModel.ts";
 import {SearchField} from "../../src/type/model/search/SearchField.ts";
 
 
-const props = defineProps<{ model: SearchModel, field: SearchField, placeholder: string, width: string, searchData: {} }>()
+const props = defineProps<{
+    model: SearchModel,
+    field: SearchField,
+    placeholder: string,
+    width: string,
+    searchData: {}
+}>()
 
 const modelValue = defineModel()
 
@@ -57,7 +63,7 @@ function render(): VNode {
                 model: props.model,
                 field: field,
             },
-            Object.entries(map).map(([k, v]) => createVNode(ElOption, {label: v, value: k}))
+            Object.entries(map).map(([k, v]) => createVNode(ElOption, {key: k, label: v, value: k}))
         )
     }
 
