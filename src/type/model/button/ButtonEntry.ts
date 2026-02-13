@@ -1,5 +1,6 @@
 import {ButtonDialogInfo} from "./ButtonDialogInfo.ts";
 import {ButtonEditInfo} from "./ButtonEditInfo.ts";
+import {ButtonPanelInfo} from "./ButtonPanelInfo.ts";
 
 export interface ButtonEntry {
     name: string
@@ -12,4 +13,5 @@ export interface ButtonEntry {
     component?: string
     dialog?: ButtonDialogInfo
     edit?: ButtonEditInfo
+    panel?: ButtonPanelInfo
 }

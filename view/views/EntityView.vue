@@ -79,13 +79,16 @@ const subNodeProps = {
     viewMode: viewMode
 }
 
-function openEditPanel(data: {}, options: { width?: string, title?: string, model?: EditModel } = {}) {
+function openEditPanel(
+    data: {},
+    options: { width?: string, title?: string, model?: EditModel, save?: (data: any) => Promise<void> } = {}
+) {
     console.log(data)
     const model = options.model ?? props.model
     dialog({
         title: options.title ?? data['id'] ? '编辑' : '新增',
         style: {'width': options.width ?? '640px'},
-        content: ako.createEditView(model, data, save, mappings.value)
+        content: ako.createEditView(model, data, options.save ?? save, mappings.value)
     })
 }
 

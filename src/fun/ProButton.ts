@@ -126,7 +126,12 @@ export function toProButton(
     ako: Ako,
     model: BaseModel,
     search: () => void,
-    edit: (e: any, options?: { width?: string, title?: string, model?: EditModel }) => void
+    edit: (e: any, options?: {
+        width?: string,
+        title?: string,
+        model?: EditModel,
+        save?: (data: any) => Promise<void>
+    }) => void
 ): ProButton {
     let execute
     if (button.url) {
@@ -166,7 +171,7 @@ export function toProButton(
             return edit(dataFun(single ?? {}), button.edit)
         }
     }
-    if (button.dialog){
+    if (button.dialog) {
         execute = async (single: any | undefined, multi: any[] | undefined) => {
             if (button.dialog?.needSingle && !single) {
                 ElMessage.error('请单选选中一条记录！')
@@ -199,6 +204,46 @@ export function toProButton(
             api: ako.api,
             dialog: dialog,
         })
+    }
+    if (button.panel) {
+        const panel = button.panel
+        const dataFun = panel.data ? eval("(it) => " + panel.data) : (it: any) => it
+        const params = buttonUrl(panel.url)
+        const mustSingle = params.some(it => it.type == 'single')
+
+        let save: (data: any) => Promise<void>
+        if (panel.id == "" && panel.url == undefined) {
+            const errorMsg = `请配置按钮 ${button.name} 的 panel.url 或 panel.id！`
+            save = async () => alert(errorMsg)
+            alert(errorMsg)
+        } else {
+            if (panel.url != undefined) {
+                const method = panel.method ?? 'post'
+                save = async (data: any) => {
+                    const {url} = buttonUrl2(panel.url, params, data, undefined, ako.options)
+                    const result = axios.request({url: url, method: method, data: data})
+                    const resData = (await result).data
+                    const code = resData?.code ?? 0
+                    const message = resData?.message ?? code == 0 ? '操作成功！' : '操作失败！'
+                    if (code == 0) ElMessage.success(message)
+                    else ElMessage.error(message)
+                }
+            } else {
+                const errorMsg = `按钮 ${button.name} 的 panel.id 模式未被实现！`
+                save = async () => alert(errorMsg)
+                alert(errorMsg)
+            }
+        }
+
+
+        execute = async (single: any | undefined, multi: any[] | undefined) => {
+            if (mustSingle && !single) {
+                ElMessage.error('请单选选中一条记录！')
+                return
+            }
+
+            return edit(dataFun(single ?? {}), {model: button.panel, save})
+        }
     }
     return {
         ...button,
