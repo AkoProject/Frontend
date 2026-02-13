@@ -106,6 +106,19 @@ function buttonUrl2(url: string, params: UrlParam[], single: any | undefined, mu
         if (item.location == 'path') item.data = toPathParam(data)
         else item.data = JSON.stringify(data)
     })
+
+    let body = undefined
+    params.forEach(it => {
+        if (it.location == 'path')
+            url = url.replace('${' + it.name + '}', it.data)
+    })
+    if (url.includes('#')) {
+        const data = url.split('#', 2)
+        url = data[0]
+        body = data[1]
+    }
+
+    return {url, body}
 }
 
 export function toProButton(
@@ -131,18 +144,7 @@ export function toProButton(
                 return
             }
 
-            buttonUrl2(button.url!, params, single, multi, ako.options)
-            let url = button.url
-            let body = undefined
-            params.forEach(it => {
-                if (it.location == 'path')
-                    url = url.replace('${' + it.name + '}', it.data)
-            })
-            if (url.includes('#')) {
-                const data = url.split('#', 2)
-                url = data[0]
-                body = data[1]
-            }
+            const {url, body} = buttonUrl2(button.url!, params, single, multi, ako.options)
 
 
             if (button.method == "popup") {
