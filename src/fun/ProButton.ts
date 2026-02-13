@@ -61,8 +61,11 @@ function buttonUrl(url: string) {
             if (!zy && char == '$') ks = true
             if (!zy && char == '#') body = true
         } else {
-            if (char == '}') buildParam()
-            else paramBuilder += char
+            if (char == '}') {
+                buildParam()
+                ks = false
+                body = false
+            } else paramBuilder += char
         }
     }
     if (paramBuilder != '') error('URL 解析失败！URL 尾存在无法解析的参数！')
