@@ -103,12 +103,9 @@ async function search() {
     entityList.value = resp.entities
     mappings.value = resp.mappings
 }
-
+const saveFun = ako.createSaveFun(props.model)
 async function save(data: {}) {
-    Object.keys(data).forEach(key => {
-        if (data[key] === '') data[key] = null
-    })
-    await api.model.save(props.model.id, data)
+    await saveFun(data)
     await search()
 }
 

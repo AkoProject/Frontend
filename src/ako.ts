@@ -89,6 +89,15 @@ export class Ako implements ObjectPlugin<AkoOptions> {
             model: model
         })
     }
+
+    createSaveFun(model: EditModel): (data: any) => Promise<void> {
+        return async (data: any) => {
+            Object.keys(data).forEach(key => {
+                if (data[key] === '') data[key] = null
+            })
+            await this.api.model.save(model.id, data)
+        }
+    }
 }
 
 const defaultMap = {

@@ -228,11 +228,7 @@ export function toProButton(
                     if (code == 0) ElMessage.success(message)
                     else ElMessage.error(message)
                 }
-            } else {
-                const errorMsg = `按钮 ${button.name} 的 panel.id 模式未被实现！`
-                save = async () => alert(errorMsg)
-                alert(errorMsg)
-            }
+            } else save = ako.createSaveFun(button.panel)
         }
 
 
@@ -242,7 +238,13 @@ export function toProButton(
                 return
             }
 
-            return edit(dataFun(single ?? {}), {model: button.panel, save})
+            return edit(dataFun(single ?? {}), {
+                model: button.panel,
+                save: async (data) => {
+                    await save(data)
+                    search()
+                }
+            })
         }
     }
     return {
