@@ -1,6 +1,9 @@
 <template>
-    <el-form-item :label="field.name" :rules="rules" :prop="field.id">
-        <component :is="view"/>
+    <el-form-item :label="field.name" :rules="rules" :prop="field.id" :style="field.description ? 'margin-bottom: 8px' : ''">
+        <div class="wFull">
+            <div><component :is="view"/></div>
+            <div class="fs-12 col-999 mg-t2 lh-14" v-if="field.description">{{ field.description }}</div>
+        </div>
     </el-form-item>
 </template>
 
