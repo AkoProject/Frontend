@@ -93,7 +93,10 @@ export class Ako implements ObjectPlugin<AkoOptions> {
     createSaveFun(model: EditModel): (data: any) => Promise<void> {
         return async (data: any) => {
             Object.keys(data).forEach(key => {
-                if (data[key] === '') data[key] = null
+                const field = model.fields.find(it => it.id == key)
+                if (field == undefined) return
+                if (data[key] == undefined && field.edit.require && field.edit.allowEmpty) data[key] = ''
+                else if (data[key] === '' && !field.edit.require) data[key] = null
             })
             await this.api.model.save(model.id, data)
         }
