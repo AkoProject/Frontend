@@ -1,113 +1,38 @@
 <template>
-    <el-form-item :label="field.name" :rules="rules" :prop="field.id" :style="field.description ? 'margin-bottom: 8px' : ''">
-        <div class="wFull">
-            <div><component :is="view"/></div>
-            <div class="fs-12 col-999 mg-t2 lh-14" v-if="field.description">{{ field.description }}</div>
-        </div>
-    </el-form-item>
+    <component
+        :is="view"
+        :model="model"
+        :field="field"
+        :page="page"
+        :data="data"
+        :options="options"
+        v-model="modelValue"
+    />
 </template>
 
-<script setup lang="tsx">
-import {createVNode, VNode} from "vue";
-import {ElDatePicker, ElInput, ElMessage, ElOption, ElSelect, ElTimePicker} from "element-plus";
-import AkoEntityEditMappingColumnPanel from "./AkoEntityEditMappingColumnPanel.vue";
-import {enumMap} from "../../src/fun/enum.ts";
-import {EditInfo} from "../../src/type/model/edit/EditInfo.ts";
-import axios from "axios";
+<script setup lang="ts">
+import {createVNode, inject} from "vue";
+import {AkoSymbol} from "../../src/ako.ts";
+import {ModelPage} from "../../src/type/resp/ModelPage.ts";
 import {EditModel} from "../../src/type/model/edit/EditModel.ts";
 import {EditField} from "../../src/type/model/edit/EditField.ts";
+import {EditInfo} from "../../src/type/model/edit/EditInfo.ts";
+import axios from "axios";
 
+const ako = inject(AkoSymbol)
 const props = defineProps<{
     model: EditModel,
     field: EditField,
     edit: EditInfo,
+    page: ModelPage,
     data: {},
-    mappings: []
 }>()
 
 const modelValue = defineModel()
 
 const field = props.field
-const edit = props.edit
 const type = props.field.type
-const subtype = props.field.subtype
+const options = props.field.options
 
-const rules = edit.validate.length ? edit.validate.map(v => {
-    if (v.require) return {required: true, message: v.message, trigger: 'blur'}
-    if (v.regexp) return {pattern: v.regexp, message: v.message, trigger: 'blur'}
-    if (v.min || v.max) return {min: v.min, max: v.max, message: v.message, trigger: 'blur'}
-    if (v.fetch) return {
-        validator: (rule: any, value: any, callback: (error?: any) => void) => {
-            axios.post(v.fetch, {
-                model: props.model.id,
-                field: props.field.id,
-                data: props.data,
-                value: value
-            }).then(resp => callback(resp.data.success ? undefined : new Error(v.message)))
-                .catch(err => callback(new Error(`参数远程验证失败: ${err.message}`)))
-        },
-        trigger: 'blur'
-    }
-    if (v.eval) return {
-        validator: (rule: any, value: any, callback: (error?: any) => void) => {
-            const fun = eval("async (value, data, model, field) => {" + v.eval + "}")
-            fun(value, props.data, props.model, props.field)
-                .then(callback)
-                .catch(() => callback(new Error(v.message)))
-        },
-        trigger: 'blur'
-    }
-    return undefined
-}).filter(it => it) : undefined
-
-
-function render(): VNode {
-    if (type === -1) return <span>不受支持的格式: {field.content}</span>
-
-    const defaultProps = {
-        placeholder: field.name,
-        modelValue: modelValue.value,
-        disabled: !edit.editable,
-        'onUpdate:modelValue': (value) => modelValue.value = value
-    }
-
-    function node(component: any, props: {} = {}, children: VNode[] = []): VNode {
-        return createVNode(component, {...props, ...defaultProps}, children)
-    }
-
-    if (type === 0) return node(ElInput, {clearable: true})
-    if (type === 1) return node(ElInput, {type: 'textarea', rows: 3, clearable: true})
-
-    if (type === 40)
-        switch (subtype) {
-            case 0:
-                return node(ElDatePicker, {'value-format': "x"})
-            case 1:
-                return node(ElTimePicker, {'value-format': "x"})
-            case 2:
-                return node(ElDatePicker, {type: 'datetime', 'value-format': "x"})
-        }
-
-    if (type === 50) return node(AkoEntityEditMappingColumnPanel, {...props})
-
-    if (type === 100) {
-        const map = enumMap(field.enum)
-        return node(
-            ElSelect,
-            {
-                clearable: true,
-                model: props.model,
-                field: field,
-            },
-            Object.entries(map).map(([k, v]) => createVNode(ElOption, {key: k, label: v, value: k}))
-        )
-    }
-
-    return <span>111</span>
-}
-
-const view = () => render()
+const view = ako.findTypeProvider(type)?.edit ?? (() => createVNode('span', null, `无法定位 TypeProvider: ${type}。`))
 </script>
-
-<style scoped>
-</style>

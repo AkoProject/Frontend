@@ -28,6 +28,7 @@
     },
     "include": [
         "src/**/*.ts",
+        "src/**/*.vue",
         "view/**/*.vue",
         "export.ts"
     ],

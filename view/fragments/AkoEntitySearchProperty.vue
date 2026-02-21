@@ -5,9 +5,9 @@
             :is="ako.findComponent(entry.component)"
             :model="model"
             :field="field"
-            :placeholder="entry.placeholder"
             :width="entry.width"
             :searchData="data"
+            :entry="entry"
             v-model="data[searchKey(entry.opt)]"
         />
     </el-form-item>

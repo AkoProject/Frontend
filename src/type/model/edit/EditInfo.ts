@@ -2,7 +2,8 @@ import {EditValidateEntry} from "./EditValidateEntry.ts";
 
 
 export interface EditInfo {
-    component:  string
+    propertyComponent: string
+    inputComponent: string
     require: boolean
     allowEmpty: boolean
     editable: boolean

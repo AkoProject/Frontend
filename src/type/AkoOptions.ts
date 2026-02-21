@@ -7,6 +7,7 @@ import {Ako} from "../ako.ts";
 import AuthLogo from "../../view/components/AuthLogo.vue";
 import MainLogo from "../../view/components/MainLogo.vue";
 import {MenuResp} from "./resp/MenuResp.ts";
+import {TypeProvider} from "./value/TypeProvider.ts";
 
 
 export interface AkoOptions {
@@ -16,6 +17,7 @@ export interface AkoOptions {
     channel?: string
     dashboard?: MenuItem
     menuItems?: (MenuItem | MenuGroup)[]
+    types?: TypeProvider[]
     authLogo?: Component | VNode | (() => VNode)
     mainLogo?: Component | VNode | (() => VNode)
     mixin?: (resp: MenuResp) => MenuResp

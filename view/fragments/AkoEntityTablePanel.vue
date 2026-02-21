@@ -23,8 +23,7 @@
                     :is="ako.findComponent(field.column.component)"
                     :model="model"
                     :field="field"
-                    :mappings="mappings"
-                    :entities="entities"
+                    :page="page"
                     :row="scope.row"
                     :data="scope.row[field.id]"
                 />
@@ -43,8 +42,7 @@
                         v-if="button.component"
                         :is="ako.findComponent(button.component)"
                         :model="model"
-                        :mappings="mappings"
-                        :entities="entities"
+                        :page="page"
                         :row="scope.row"
                         @search="searchFun"
                         @edit="editFun"
@@ -72,6 +70,7 @@ import {inject, nextTick, ref, watch} from "vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import {ProButton, toProButton} from "../../src/fun/ProButton.ts";
 import {TableModel} from "../../src/type/model/table/TableModel.ts";
+import {ModelPage} from "../../src/type/resp/ModelPage.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -89,8 +88,7 @@ function handleSortChange(data: { column: any, prop: any, order: 'ascending' | '
 
 const prop = defineProps<{
     model: TableModel,
-    entities: [],
-    mappings: any,
+    page: ModelPage,
     searchFun: () => Promise<any>,
     selectFun?: (data: {}) => any,
     editFun: (data: {}) => any,
@@ -99,8 +97,8 @@ const prop = defineProps<{
 
 const buttons = ref(prop.model.operateButtons.map(it => toProButton(it, ako, prop.model, prop.searchFun, prop.editFun)))
 
-const tableData = ref<any[]>(prop.entities)
-watch(() => prop.entities, value => {
+const tableData = ref<any[]>(prop.page.entities)
+watch(() => prop.page.entities, value => {
     tableData.value = []
     nextTick(() => tableData.value = value)
 })

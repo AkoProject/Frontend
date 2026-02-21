@@ -3,11 +3,11 @@
         <template v-for="field in fields">
             <component
                 v-if="field.edit"
-                :is="ako.findComponent(field.edit.component)"
+                :is="ako.findComponent(field.edit.propertyComponent)"
                 :model="model"
                 :field="field"
                 :edit="field.edit"
-                :mappings="mappings"
+                :page="page"
                 :data="data"
                 v-model="data[field.id]"
             />
@@ -25,6 +25,7 @@ import {ElMessageBox, ElForm} from "element-plus";
 import {inject, ref, useTemplateRef} from "vue";
 import {AkoSymbol} from "../../src/ako.ts";
 import {EditModel} from "../../src/type/model/edit/EditModel.ts";
+import {ModelPage} from "../../src/type/resp/ModelPage.ts";
 
 const emits = defineEmits(['close'])
 
@@ -32,7 +33,7 @@ const props = defineProps<{
     model: EditModel,
     data: {}
     save: (data: {}) => Promise<void>,
-    mappings: []
+    page: ModelPage,
 }>()
 
 const ako = inject(AkoSymbol)

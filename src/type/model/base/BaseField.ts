@@ -4,9 +4,6 @@ export interface BaseField{
     name: string
     description: string
 
-    type: number
-    subtype: number
-
-    content: string
-    enum: string[]
+    type: string
+    options?: any
 }

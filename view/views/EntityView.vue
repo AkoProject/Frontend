@@ -15,8 +15,7 @@
                 :is="ako.findComponent(props.tableNode)"
                 v-bind="subNodeProps"
                 v-model="orderData"
-                :entities="entityList"
-                :mappings="mappings"
+                :page="page"
                 v-model:single="singleSelect"
                 v-model:multi="multiSelect"
                 style="height: calc(100% - 50px);"
@@ -37,11 +36,12 @@
 <script setup lang="ts">
 import H20 from "../components/h20.vue";
 import {DbModel} from "../../src/type/DbModel.ts";
-import {createVNode, inject, onMounted, ref, watch} from "vue";
+import {computed, createVNode, inject, onMounted, ref, watch} from "vue";
 import Panel from "../components/Panel.vue";
 import {AkoApiSymbol, AkoSymbol} from "../../src/ako.ts";
 import {dialog} from "../../src/fun/dialog.ts";
 import {EditModel} from "../../src/type/model/edit/EditModel.ts";
+import {ModelPage} from "../../src/type/resp/ModelPage.ts";
 
 const ako = inject(AkoSymbol)
 const api = inject(AkoApiSymbol)
@@ -65,9 +65,9 @@ const orderData = ref({})
 const singleSelect = ref()
 const multiSelect = ref([])
 
-const entityNum = ref(0)
-const entityList = ref([])
-const mappings = ref()
+const page = ref<ModelPage>({total: 0, entities: [], information: {}})
+
+const entityNum = computed(() => page.value?.total ?? 0)
 
 const subNodeProps = {
     model: props.model,
@@ -88,7 +88,7 @@ function openEditPanel(
     dialog({
         title: options.title ?? data['id'] ? '编辑' : '新增',
         style: {'width': options.width ?? '640px'},
-        content: ako.createEditView(model, data, options.save ?? save, mappings.value)
+        content: ako.createEditView(model, data, options.save ?? save, page.value)
     })
 }
 
@@ -98,10 +98,7 @@ async function search() {
         .filter(key => searchData.value[key] !== '' && searchData.value[key] != null && searchData.value[key] != undefined)
         .forEach(key => data[key] = searchData.value[key])
 
-    const resp = await api.model.page(props.model.id, data, orderData.value, pid.value, size.value)
-    entityNum.value = resp.total
-    entityList.value = resp.entities
-    mappings.value = resp.mappings
+    page.value = await api.model.page(props.model.id, data, orderData.value, pid.value, size.value)
 }
 const saveFun = ako.createSaveFun(props.model)
 async function save(data: {}) {

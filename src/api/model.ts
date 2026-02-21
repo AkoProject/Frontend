@@ -1,7 +1,8 @@
 import {DefaultAkoApi} from "./api.ts";
+import {ModelPage} from "../type/resp/ModelPage.ts";
 
 export interface ModelApi {
-    page: (model: string, searchData: {}, sortData: {}, pid: number, pSize: number) => Promise<any>,
+    page: (model: string, searchData: {}, sortData: {}, pid: number, pSize: number) => Promise<ModelPage>,
     delete: (model: string, id: number[]) => Promise<any>,
     save: (model: string, data: {}) => Promise<any>
 }
