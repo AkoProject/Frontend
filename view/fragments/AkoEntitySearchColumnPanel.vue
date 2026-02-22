@@ -6,6 +6,7 @@
         :entry="entry"
         :options="options"
         :placeholder="entry?.placeholder ?? field.name"
+        :data="searchData"
         v-model="modelValue"
     />
 </template>
