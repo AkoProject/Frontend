@@ -6,6 +6,7 @@
         :page="page"
         :data="data"
         :options="options"
+        :information="page.information[field.type]"
         v-model="modelValue"
     />
 </template>

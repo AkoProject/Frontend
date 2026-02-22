@@ -7,6 +7,7 @@
         :data="data"
         :page="page"
         :options="options"
+        :information="page.information[field.type]"
     />
 </template>
 
