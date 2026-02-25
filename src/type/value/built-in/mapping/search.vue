@@ -1,7 +1,7 @@
 <template>
-    <el-input clearable :disabled="!cascader" :model-value="input" @clear="model = input = ''">
+    <el-input clearable :disabled="!disabled" :model-value="input" @clear="model = input = ''">
         <template #append>
-            <el-button icon="search" :disabled="!cascader" @click="openDialog"/>
+            <el-button icon="search" :disabled="!disabled" @click="openDialog"/>
         </template>
     </el-input>
 </template>
@@ -12,9 +12,13 @@ import {MappingOptions} from "./options.ts";
 import {dialog} from "../../../../fun/dialog.ts";
 import {AkoSymbol} from "../../../../ako.ts";
 
-const {options, information} = defineProps<{ options: MappingOptions, information?: Record<string, any[]>, data: {} }>()
-const cascader = computed(() => options.cascader ?? '__blank__')
-const mapping = computed(() => options.values[options.cascader ?? '__blank__'])
+const {options, information, data} = defineProps<{
+    options: MappingOptions,
+    information?: Record<string, any[]>,
+    data: {}
+}>()
+const mapping = computed(() => options.values[options.cascader ? data[options.cascader] : '__blank__'])
+const disabled = computed(() => options.cascader != null && !!data[options.cascader])
 
 const model = defineModel()
 const input = ref(information?.[mapping.value.model]?.find(it => it[mapping.value.field] == model.value)?.[mapping.value.display])
