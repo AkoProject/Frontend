@@ -1,5 +1,6 @@
 <template>
     <component
+        v-if="data"
         :is="view"
         :model="model"
         :field="field"
@@ -9,6 +10,7 @@
         :options="options"
         :information="page.information[field.type]"
     />
+    <span v-else class="col-999">null</span>
 </template>
 
 <script setup lang="ts">
