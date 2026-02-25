@@ -1,6 +1,6 @@
 <template>
     <component
-        v-if="data"
+        v-if="data != undefined"
         :is="view"
         :model="model"
         :field="field"
