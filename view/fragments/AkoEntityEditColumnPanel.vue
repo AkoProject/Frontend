@@ -7,6 +7,7 @@
         :data="data"
         :options="options"
         :information="page.information[field.type]"
+        :placeholder="edit.placeholder ?? field.name"
         v-model="modelValue"
     />
 </template>
