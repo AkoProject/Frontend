@@ -11,6 +11,7 @@
                     :is="ako.findComponent(edit.inputComponent)"
                     :model="model"
                     :field="field"
+                    :edit="edit"
                     :page="page"
                     :data="data"
                     v-model="modelValue"
