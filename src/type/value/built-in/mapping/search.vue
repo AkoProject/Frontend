@@ -18,7 +18,7 @@ const {options, information, data} = defineProps<{
     data: {}
 }>()
 const mapping = computed(() => options.values[options.cascader ? data[options.cascader] : '__blank__'])
-const disabled = computed(() => options.cascader != null && !!data[options.cascader])
+const disabled = computed(() => options.cascader == null || !!data[options.cascader])
 
 const model = defineModel()
 const input = ref(information?.[mapping.value.model]?.find(it => it[mapping.value.field] == model.value)?.[mapping.value.display])
