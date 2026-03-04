@@ -83,12 +83,24 @@ export class Ako implements ObjectPlugin<AkoOptions> {
     private _models: DbModel[] = []
     private _typeProviders: TypeProvider[] = [...builtInValueProvider()]
 
+    get app(): App {
+        return this._app;
+    }
+
+    set app(value: App) {
+        this._app = value
+    }
+
     get options(): AkoOptions {
         return this._options;
     }
 
-    get app(): App {
-        return this._app;
+    set options(value: AkoOptions) {
+        if (this._app == null) throw new Error("请先正确提供 Vue App 实例！")
+        this._options = margeOptions(value)
+        this._api = this._options.api(this)
+        if (this._options.registerElementIcon) registerElementIcon(this._app)
+        if (this._options.types) this._typeProviders.push(...this._options.types)
     }
 
     get models(): DbModel[] {
@@ -100,12 +112,8 @@ export class Ako implements ObjectPlugin<AkoOptions> {
     }
 
     install(app: App, options?: AkoOptions) {
-        this._app = app
-        this._options = margeOptions(options)
-        this._api = this._options.api(this)
-
-        if (this._options.registerElementIcon) registerElementIcon(app)
-        if (this._options.types) this._typeProviders.push(...this._options.types)
+        this.app = app
+        this.options = options
 
         app.provide(AkoSymbol, this)
         app.provide(AkoOptionsSymbol, this._options)
