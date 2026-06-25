@@ -113,7 +113,7 @@ export class Ako implements ObjectPlugin<AkoOptions> {
 
     install(app: App, options?: AkoOptions) {
         this.app = app
-        if (options) this.options = options
+        if (!this.options || options) this.options = options
 
         app.provide(AkoSymbol, this)
         app.provide(AkoOptionsSymbol, this._options)
