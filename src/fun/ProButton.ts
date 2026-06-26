@@ -211,7 +211,7 @@ export function toProButton(
         const params = buttonUrl(panel.url)
         const mustSingle = params.some(it => it.type == 'single')
 
-        let save: (data: any) => Promise<void>
+        let save: (data: any, single?: any) => Promise<void>
         if (panel.id == "" && panel.url == undefined) {
             const errorMsg = `请配置按钮 ${button.name} 的 panel.url 或 panel.id！`
             save = async () => alert(errorMsg)
@@ -219,8 +219,8 @@ export function toProButton(
         } else {
             if (panel.url != undefined) {
                 const method = panel.method ?? 'post'
-                save = async (data: any) => {
-                    const {url} = buttonUrl2(panel.url, params, data, undefined, ako.options)
+                save = async (data: any, single: any) => {
+                    const {url} = buttonUrl2(panel.url, params, single, undefined, ako.options)
                     const result = axios.request({url: url, method: method, data: data})
                     const resData = (await result).data
                     const code = resData?.code ?? 0
@@ -240,8 +240,9 @@ export function toProButton(
 
             return edit(dataFun(single ?? {}), {
                 model: button.panel,
+                title: button.name,
                 save: async (data) => {
-                    await save(data)
+                    await save(data, single)
                     search()
                 }
             })
