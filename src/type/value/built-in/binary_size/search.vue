@@ -13,13 +13,16 @@ import {SearchEntry} from "../../../model/search/SearchEntry.ts";
 import {BaseField} from "../../../model/base/BaseField.ts";
 import {binary, units} from "../../../../fun/binary.ts";
 import {ref, watch} from "vue";
+import {safeBigInt, safeStr} from "../../../../fun/num.ts";
 
 defineProps<{ field: BaseField, entry?: SearchEntry }>()
 
 const model = defineModel()
-const value = ref<number>(model.value != undefined ? Number(model.value) : undefined)
+const value = ref<string>(safeStr(model.value, true))
 const unit = ref<number>(0)
 
-watch(value, () => model.value = value.value != undefined ? (value.value * Math.pow(binary, unit.value)).toString() : undefined)
+const calcValue = () => model.value = safeStr(value.value, true) != undefined ? (safeBigInt(value.value) * (binary ** BigInt(unit.value))).toString() : undefined
+watch(value, calcValue)
+watch(unit, calcValue)
 
 </script>

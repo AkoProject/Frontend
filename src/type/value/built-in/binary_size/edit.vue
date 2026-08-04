@@ -13,19 +13,19 @@ import {SearchEntry} from "../../../model/search/SearchEntry.ts";
 import {BaseField} from "../../../model/base/BaseField.ts";
 import {binary, units} from "../../../../fun/binary.ts";
 import {ref, watch} from "vue";
+import {safeBigInt, safeStr} from "../../../../fun/num.ts";
 
 defineProps<{ field: BaseField, entry?: SearchEntry }>()
 
 const model = defineModel()
-const rangeList = units.map((_, i) => i == 0 ? 1 : binary ** i)
-console.log(rangeList)
+const rangeList = units.map((_, i) => i == 0 ? 1n : binary ** BigInt(i))
 
-function findRange(num: number) {
+function findRange(num: bigint) {
     let e = 0
-    let a = 1
-    for (let i = 0; i < rangeList.length - 1; i++) {
+    let a = 1n
+    for (let i = 0; i < rangeList.length; i++) {
         const it = rangeList[i]
-        if (num % it === 0) {
+        if (num % it === 0n) {
             e = i
             a = it
         }
@@ -33,20 +33,20 @@ function findRange(num: number) {
     return {index: e, unit: a}
 }
 
-const value = ref<number>(Number(model.value) ?? 0)
+const value = ref<string>(safeStr(model.value, true))
 const unit = ref<number>(0)
 
-function changeUnit(value: number, newUnit: number, oldUnit: number) {
-    let now = value * Math.pow(binary, oldUnit)
-    now = now / Math.pow(binary, newUnit)
-    if (now < 1) now = 1
+function changeUnit(value: bigint, newUnit: number, oldUnit: number): bigint {
+    let now = value * (binary ** BigInt(oldUnit))
+    now = now / (binary ** BigInt(newUnit))
+    if (now < 1) now = 1n
     return now
 }
 
-unit.value = findRange(value.value).index
-value.value = changeUnit(value.value, unit.value, 0)
+unit.value = findRange(safeBigInt(value.value)).index
+value.value = value.value ? changeUnit(safeBigInt(value.value), unit.value, 0).toString() : undefined
 
-watch(value, () => model.value = (value.value * Math.pow(binary, unit.value)).toString())
-watch(unit, (n, o) => value.value = changeUnit(value.value, n, o))
+watch(value, () => model.value = (safeBigInt(value.value) * (binary ** BigInt(unit.value))).toString())
+watch(unit, (n, o) => value.value = String(changeUnit(safeBigInt(value.value), n, o)))
 
 </script>
