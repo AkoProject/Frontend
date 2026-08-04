@@ -25,7 +25,7 @@ function findRange(num: bigint) {
     let a = 1n
     for (let i = 0; i < rangeList.length; i++) {
         const it = rangeList[i]
-        if (num % it === 0n) {
+        if (num % it === 0n && num > it) {
             e = i
             a = it
         }
